@@ -2360,6 +2360,22 @@ protobuf = "*"
 sympy = "*"
 
 [[package]]
+name = "onnxscript"
+version = "0.1.0.dev20231213"
+description = "Naturally author ONNX functions and models using a subset of Python"
+optional = false
+python-versions = ">=3.8"
+files = [
+    {file = "onnxscript-0.1.0.dev20231213-py3-none-any.whl", hash = "sha256:2fba932adaf3d3dd3290831d007e64be99157a8ff7998532856ffc7edd409a71"},
+    {file = "onnxscript-0.1.0.dev20231213.tar.gz", hash = "sha256:1a82d6fce9ee9bc99da2c2b147ab660fc7bd365e6ea648fad7e3e1c9ff1618fe"},
+]
+
+[package.dependencies]
+numpy = "*"
+onnx = ">=1.14"
+typing_extensions = "*"
+
+[[package]]
 name = "packaging"
 version = "23.2"
 description = "Core utilities for Python packages"
@@ -4152,4 +4168,4 @@ testing = ["big-O", "jaraco.functools", "jaraco.itertools", "more-itertools", "p
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.9"
-content-hash = "458887c9b1f88f831a8efd88e0c0113788b1d85165d4c22b32cec8051118aca3"
+content-hash = "4f810a440cdb40d12f3b55e9b98411355683dd0f9c8b92a000c4b9331e29536f"
