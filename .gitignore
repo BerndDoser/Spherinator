@@ -1,4 +1,5 @@
 __pycache__
+.streamflow
 .venv*/
 *.ckpt
 *.ncu-rep
