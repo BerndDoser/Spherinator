@@ -1,17 +1,16 @@
 version: v1.0
 workflows:
-  extract-and-compile:
+  hello_world:
     type: cwl
     config:
-      file: main.cwl
-      settings: config.yml
+      file: hello_world.cwl
     bindings:
-      - step: /compile
+      - step: /print_message
         target:
-          model: docker-openjdk
+          model: docker-ubuntu
 
 models:
-  docker-openjdk:
+  docker-ubuntu:
     type: docker
     config:
-      image: openjdk:9.0.1-11-slim
+      image: ubuntu:latest
