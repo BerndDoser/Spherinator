@@ -16,5 +16,5 @@ export FLYTECTL_CONFIG=~/.flyte/config-sandbox.yaml
 
 ## Flyte using SLURM Rest API
 
-https://docs.flyte.org/en/latest/flyte_agents/index.html
-https://discuss.flyte.org/t/8281866/hi-all-i-am-currently-evaluating-if-flyte-could-be-used-as-a
+- https://docs.flyte.org/en/latest/flyte_agents/index.html
+- https://discuss.flyte.org/t/8281866/hi-all-i-am-currently-evaluating-if-flyte-could-be-used-as-a
