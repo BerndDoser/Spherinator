@@ -12,26 +12,28 @@ model:
         hidden_dim: 768
         mlp_dim: 3072
         num_classes: 256
-        norm_layer:
-          class_path: functools.partial
-          init_args:
-            func: torch.nn.LayerNorm
     decoder:
-      class_path: models.ConvolutionalDecoder
+      class_path: models.ConvolutionalDecoder224
     h_dim: 256
     z_dim: 3
-    image_size: 91
+    image_size: 363
     rotations: 36
     beta: 1.0e-3
 
 data:
-  class_path: data.ShapesDataModule
+  class_path: data.IllustrisSdssDataModule
   init_args:
-    data_directory: /hits/basement/its/doserbd/projects/data/machine-learning/pink/shapes/
+    data_directories: ["/local_data/AIN/SKIRT_synthetic_images/TNG100/sdss/snapnum_099/data/",
+                       "/local_data/AIN/SKIRT_synthetic_images/TNG100/sdss/snapnum_095/data/",
+                       "/local_data/AIN/SKIRT_synthetic_images/TNG50/sdss/snapnum_099/data/",
+                       "/local_data/AIN/SKIRT_synthetic_images/TNG50/sdss/snapnum_095/data/",
+                       "/local_data/AIN/SKIRT_synthetic_images/Illustris/sdss/snapnum_135/data/",
+                       "/local_data/AIN/SKIRT_synthetic_images/Illustris/sdss/snapnum_131/data/"]
+    extension: fits
+    minsize: 100
+    batch_size: 512
     shuffle: True
-    image_size: 91
-    batch_size: 32
-    num_workers: 4
+    num_workers: 16
 
 optimizer:
   class_path: torch.optim.Adam
