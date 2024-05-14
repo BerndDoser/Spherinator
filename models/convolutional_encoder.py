@@ -1,10 +1,9 @@
-import lightning.pytorch as pl
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
 
-class ConvolutionalEncoder(pl.LightningModule):
+class ConvolutionalEncoder(nn.Module):
     def __init__(self, h_dim: int = 256):
         super().__init__()
 
