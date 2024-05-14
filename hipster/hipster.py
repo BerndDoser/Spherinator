@@ -3,7 +3,6 @@
 
 import copy
 import math
-import multiprocessing as mp
 import os
 from datetime import datetime
 from pathlib import Path
@@ -14,6 +13,7 @@ import numpy
 import pandas as pd
 import psutil
 import torch
+import torch.multiprocessing as mp
 import torchvision.transforms.functional as functional
 from astropy.io.votable import writeto
 from astropy.table import Table
@@ -402,9 +402,7 @@ class Hipster:
                 flush=True,
             )
             if self.number_of_workers == 1:
-                create_hips_tile(
-                    self, model, i, range(12 * 4**i // self.number_of_workers)
-                )
+                create_hips_tile(self, model, i, range(12 * 4**i))
             else:
                 mypool = []
                 for t in range(self.number_of_workers):
@@ -576,41 +574,32 @@ class Hipster:
                 end="",
             )
 
-            mypool = []
-
-            # for j in range(12*4**i):
-            #     if j % (int(12*4**i/100)+1) == 0:
-            #         print(".", end="", flush=True)
-            #     data = self.embed_tile(dataset, catalog, i, j, self.hierarchy, healpix_cells[j])
-            #     image = Image.fromarray((
-            #         numpy.clip(data.detach().numpy(),0,1)*255).astype(numpy.uint8))
-            #     image.save(os.path.join(self.output_folder,
-            #                             self.title,
-            #                             "projection",
-            #                             "Norder"+str(i),
-            #                             "Dir"+str(int(math.floor(j/10000))*10000),
-            #                             "Npix"+str(j)+".jpg"))
-
-            for t in range(self.number_of_workers):
-                mypool.append(
-                    mp.Process(
-                        target=create_embeded_tile,
-                        args=(
-                            self,
-                            copy.deepcopy(dataset),
-                            copy.deepcopy(catalog),
-                            copy.deepcopy(healpix_cells),
-                            i,
-                            range(
-                                t * 12 * 4**i // self.number_of_workers,
-                                (t + 1) * 12 * 4**i // self.number_of_workers,
-                            ),
-                        ),
-                    )
+            if self.number_of_workers == 1:
+                create_embeded_tile(
+                    self, dataset, catalog, healpix_cells, i, range(12 * 4**i)
                 )
-                mypool[-1].start()
-            for process in mypool:
-                process.join()
+            else:
+                mypool = []
+                for t in range(self.number_of_workers):
+                    mypool.append(
+                        mp.Process(
+                            target=create_embeded_tile,
+                            args=(
+                                self,
+                                copy.deepcopy(dataset),
+                                copy.deepcopy(catalog),
+                                copy.deepcopy(healpix_cells),
+                                i,
+                                range(
+                                    t * 12 * 4**i // self.number_of_workers,
+                                    (t + 1) * 12 * 4**i // self.number_of_workers,
+                                ),
+                            ),
+                        )
+                    )
+                    mypool[-1].start()
+                for process in mypool:
+                    process.join()
             print(" done", flush=True)
 
         if self.verbose > 0:
