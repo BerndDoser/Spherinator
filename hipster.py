@@ -3,9 +3,7 @@
 import argparse
 import importlib
 
-import torch
 import yaml
-from lightning.pytorch.trainer.trainer import Trainer
 
 from hipster import Hipster
 
@@ -76,6 +74,13 @@ def main():
     parser.add_argument(
         "--verbose", "-v", default=0, action="count", help="Print level."
     )
+    parser.add_argument(
+        "--number_of_workers",
+        "-w",
+        default=-1,
+        type=int,
+        help="Number of workers (default = -1, all available).",
+    )
 
     args = parser.parse_args()
 
@@ -101,10 +106,8 @@ def main():
         model_class = getattr(module, class_name)
         model_init_args = config["model"]["init_args"]
         model = model_class(**model_init_args)
-        # FIXME: This is a hack to load the model on the GPU
         # See https://pytorch.org/docs/stable/generated/torch.load.html for map_location
-        checkpoint = torch.load(args.checkpoint, map_location="cuda:0")
-        model.load_state_dict(checkpoint["state_dict"])
+        model = model_class.load_from_checkpoint(args.checkpoint, map_location="cpu")
         model.eval()
 
     # Import the data module and create an instance of it
@@ -125,6 +128,7 @@ def main():
         crop_size=args.crop_size,
         output_size=args.output_size,
         distortion_correction=args.distortion,
+        number_of_workers=args.number_of_workers,
         catalog_file="catalog.csv",
         votable_file="catalog.vot",
         verbose=args.verbose,
