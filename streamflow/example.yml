@@ -1,0 +1,16 @@
+version: v1.0
+workflows:
+  hello_world:
+    type: cwl
+    config:
+      file: example.cwl
+    bindings:
+      - step: /print_message
+        target:
+          model: docker-ubuntu
+
+models:
+  docker-ubuntu:
+    type: docker
+    config:
+      image: ubuntu:latest
