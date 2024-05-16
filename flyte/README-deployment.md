@@ -12,7 +12,8 @@ export FLYTECTL_CONFIG=~/.flyte/config-sandbox.yaml
 
 ## Kubernetes
 
-- [Single node K8s](https://github.com/davidmirror-ops/flyte-the-hard-way/blob/main/docs/on-premises/single-node/001-configure-single-node-k8s.md)
+- [Single node k8s](https://github.com/davidmirror-ops/flyte-the-hard-way/blob/main/docs/on-premises/single-node/001-configure-single-node-k8s.md)
+- k3s
 
 ## Flyte using SLURM Rest API
 
