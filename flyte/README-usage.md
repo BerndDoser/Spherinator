@@ -1,6 +1,8 @@
 # How to use Flyte
 
-Flyte is a platform for orchestrating machine learning and data processing workflows. It is designed to be scalable, reliable, and easy to use. Flyte is built on top of Kubernetes and is designed to be cloud-native.
+Flyte is a platform for orchestrating machine learning and data processing workflows.
+Flyte is built on top of Kubernetes.
+
 
 ## Quick Start
 
@@ -20,6 +22,12 @@ Register a workflow:
 pyflyte register -p spherinator -d development workflow_parallel.py
 ```
 
+Register a new version of an existing workflow:
+```bash
+pyflyte register -p spherinator -d development workflow_hipster.py -v 0.2
+```
+
+
 ## Load Dictionaries from Dataclasses
 
 > JSON does not have distinct types for integers and floating-point values.
@@ -30,3 +38,9 @@ pyflyte register -p spherinator -d development workflow_parallel.py
 Source: https://github.com/flyteorg/flyte/issues/4505#issuecomment-1960910509
 
 Solution: https://github.com/flyteorg/flytekit/pull/2013
+
+
+## Parallelism
+
+Flyte supports parallelism in workflows. You can define multiple tasks that can run concurrently.
+Flyte will automatically manage the dependencies between tasks and ensure that they run in the correct order.
