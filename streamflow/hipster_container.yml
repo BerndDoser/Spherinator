@@ -1,11 +1,11 @@
 version: v1.0
 workflows:
-  hello_world:
+  hipster:
     type: cwl
     config:
-      file: hello_world.cwl
+      file: hipster.cwl
     bindings:
-      - step: /print_message
+      - step: generate_hips
         target:
           model: docker-ubuntu
 
@@ -13,4 +13,4 @@ models:
   docker-ubuntu:
     type: docker
     config:
-      image: ubuntu:latest
+      image: spherinator:latest

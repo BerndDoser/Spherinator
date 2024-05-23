@@ -1,0 +1,17 @@
+version: v1.0
+workflows:
+  hipster:
+    type: cwl
+    config:
+      file: example.cwl
+    bindings:
+      - step: print_message
+        target:
+          model: slurm
+
+models:
+  slurm:
+    type: slurm
+    config:
+      hostname: cascade
+      username: doserbd
