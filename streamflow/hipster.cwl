@@ -1,9 +1,18 @@
-cwlVersion: v1.2
+#!/usr/bin/env cwl-runner
 
+cwlVersion: v1.2
 class: Workflow
 
+inputs:
+  config: File
+
+outputs:
+  hipster: Directory
+
 steps:
-  generate_hips:
-    run:
-      class: CommandLineTool
-      baseCommand: hipster
+  create_images:
+    run: hipster_images.cwl
+    in:
+      config: config
+    out:
+      hipster: hipster

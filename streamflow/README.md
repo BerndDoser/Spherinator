@@ -1,15 +1,47 @@
-# Machine learning workflow
+# Machine learning workflow orchestration
 
-Execute with cwltool:
+## Common Workflow Language (CWL)
+
+### cwltool and cwl-runner
+
+`cwltool` is a reference implementation of the CWL standard.
+ - Supports CWL v1.2
+ - Supports Docker and Singularity
+ - Good for CWL sanity checks
 
 ```bash
-cwltool hello_world.cwl
+cwltool example.cwl
 ```
+
+`cwl-runner` is an implementation-agnostic runner for CWL. By default, it is a reference to `cwltool`.
+
+### VSCode extension
+
+[benten-cwl](https://marketplace.visualstudio.com/items?itemName=sbg-rabix.benten-cwl)
+
+### Visualization of workflow pipeline
+
+https://view.commonwl.org/
+
+
+
+### Hipster workflow
+
+![](../docs/assets/HiPSter_workflow.svg)
+
+```bash
+cwl-runner hipster_images.cwl hipster_input.yml
+```
+
+
+## Streamflow
+
+Python package: https://pypi.org/project/streamflow/
 
 Execute with streamflow:
 
 ```bash
-streamflow run workflow.yml
+streamflow run example_container.yml
 ```
 
 Create report:

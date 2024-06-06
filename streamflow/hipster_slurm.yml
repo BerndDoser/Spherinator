@@ -3,9 +3,9 @@ workflows:
   hipster:
     type: cwl
     config:
-      file: example.cwl
+      file: hipster.cwl
     bindings:
-      - step: print_message
+      - step: generate_hips
         target:
           model: slurm
 
