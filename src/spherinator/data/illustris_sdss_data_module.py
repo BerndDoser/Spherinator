@@ -70,12 +70,12 @@ class IllustrisSdssDataModule(SpherinatorDataModule):
         self.transform_train = transforms.Compose(
             [
                 self.transform_processing,
-                DielemanTransformation(
-                    rotation_range=[0, 360],
-                    translation_range=[0, 0],  # 4./363,4./363],
-                    scaling_range=[1, 1],  # 0.9,1.1],
-                    flip=0.5,
-                ),
+                # DielemanTransformation(
+                #     rotation_range=[0, 360],
+                #     translation_range=[0, 0],  # 4./363,4./363],
+                #     scaling_range=[1, 1],  # 0.9,1.1],
+                #     flip=0.5,
+                # ),
                 transforms.CenterCrop((363, 363)),
             ]
         )
@@ -97,7 +97,7 @@ class IllustrisSdssDataModule(SpherinatorDataModule):
             raise ValueError(f"Stage {stage} not supported.")
 
         if stage == "fit" and self.data_train is None:
-            self.data_train = IllustrisSdssDataset(
+            self.data_train = IllustrisSdssDatasetWithMetadata(
                 data_directories=self.data_directories,
                 extension=self.extension,
                 minsize=self.minsize,

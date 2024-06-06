@@ -76,11 +76,30 @@ class ShapesDataModule(SpherinatorDataModule):
             stage (str): Defines for which stage the data is needed.
                          For the moment just fitting is supported.
         """
-        if not stage in ["fit", "processing", "images", "thumbnail_images"]:
+        if not stage in [
+            "fit",
+            "fit_with_metadata",
+            "processing",
+            "images",
+            "thumbnail_images",
+        ]:
             raise ValueError(f"Stage {stage} not supported.")
 
         if stage == "fit" and self.data_train is None:
-            self.data_train = ShapesDataset(
+            self.data_train = ShapesDatasetWithMetadata(
+                data_directory=self.data_directory,
+                exclude_files=self.exclude_files,
+                transform=self.transform_train,
+                download=self.download,
+            )
+            self.dataloader_train = DataLoader(
+                self.data_train,
+                batch_size=self.batch_size,
+                shuffle=self.shuffle,
+                num_workers=self.num_workers,
+            )
+        if stage == "fit_with_metadata" and self.data_train is None:
+            self.data_train = ShapesDatasetWithMetadata(
                 data_directory=self.data_directory,
                 exclude_files=self.exclude_files,
                 transform=self.transform_train,

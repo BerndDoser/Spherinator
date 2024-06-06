@@ -49,14 +49,17 @@ class LogReconstructionCallback(Callback):
             raise ValueError("The sample indices must be smaller than the dataset size")
 
         # Get the samples from the dataset
-        images = torch.unsqueeze(trainer.train_dataloader.dataset[0], 0)
+        image, metadata = trainer.train_dataloader.dataset[0]
+        images = torch.unsqueeze(image, 0)
+        indices = [int(metadata["id"])]
         for sample in self.samples[1:]:
-            images = torch.cat(
-                (images, torch.unsqueeze(trainer.train_dataloader.dataset[sample], 0))
-            )
+            image, metadata = trainer.train_dataloader.dataset[sample]
+            images = torch.cat((images, torch.unsqueeze(image, 0)))
+            indices.append(int(metadata["id"]))
 
         # Move the samples to the device used by the model
         images = images.to(model.device)
+        indices = torch.tensor(indices).to(model.device)
 
         # Generate reconstructions of the samples using the model
         with torch.no_grad():
@@ -65,8 +68,8 @@ class LogReconstructionCallback(Callback):
                 crop, [model.input_size, model.input_size], antialias=True
             )
 
-            z = model.project(scaled)
-            recon = model.reconstruct(z)
+            z = model.encode(indices)
+            recon = model.decode(z)
             loss_recon = model.reconstruction_loss(scaled, recon)
 
         nb_samples = len(self.samples)
