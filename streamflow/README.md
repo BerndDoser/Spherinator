@@ -30,6 +30,10 @@ https://view.commonwl.org/
 ![](../docs/assets/HiPSter_workflow.svg)
 
 ```bash
+cwltool hipster_images.cwl --config shapes.yml
+```
+
+```bash
 cwl-runner hipster_images.cwl hipster_input.yml
 ```
 
