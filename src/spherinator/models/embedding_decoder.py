@@ -1,5 +1,5 @@
 import math
-from importlib import metadata
+from typing import Union
 
 import torch
 import torch.linalg
@@ -14,7 +14,7 @@ from .spherinator_module import SpherinatorModule
 class EmbeddingDecoder(SpherinatorModule):
     def __init__(
         self,
-        decoder: nn.Module | None = None,
+        decoder: Union[nn.Module, None] = None,
         z_dim: int = 3,
         num_embeddings: int = 100000,
         image_size: int = 91,
