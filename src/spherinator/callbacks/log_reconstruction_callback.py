@@ -78,7 +78,11 @@ class LogReconstructionCallback(Callback):
         ax = fig.subplots(2, nb_samples).flatten()
         for i in range(nb_samples):
             ax[i].imshow(np.clip(scaled[i].cpu().detach().numpy().T, 0, 1))
-            ax[i].set_title(f"Original {self.samples[i]}")
+            ax[i].set_title(
+                f"Original {self.samples[i]}\n"
+                f"z[0] = {z[i][0].cpu().detach().numpy():.4f}\n"
+                f"z[1] = {z[i][1].cpu().detach().numpy():.4f}"
+            )
             ax[i].axis("off")
             ax[i + nb_samples].imshow(np.clip(recon[i].cpu().detach().numpy().T, 0, 1))
             ax[i + nb_samples].set_title(f"Recon ({loss_recon[i].item():.4f})")
