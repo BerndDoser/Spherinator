@@ -1,10 +1,11 @@
 import gc
 
-import matplotlib as plt
+import matplotlib.pyplot as plt
+import numpy as np
 import torch
 from lightning.pytorch.callbacks import Callback
 
-plt.use("Agg")
+# plt.use("Agg")
 
 
 class LatentSpaceMonitorCallback(Callback):
@@ -24,18 +25,20 @@ class LatentSpaceMonitorCallback(Callback):
         ]:
             return
 
-        _, metadata = trainer.train_dataloader
-        indices = [int(metadata["id"])]
+        z = np.empty((0, 2), float)
+        # Get the latent space of the model
+        for _, metadata in trainer.train_dataloader:
+            indices = metadata["id"]
+            indices = list(map(int, indices))
+            indices = torch.tensor(indices).to(model.device)
 
-        # Move the samples to the device used by the model
-        indices = torch.tensor(indices).to(model.device)
+            with torch.no_grad():
+                z_batch = model.encode(indices)
+                z = np.append(z, z_batch.cpu().numpy(), axis=0)
 
-        # Generate reconstructions of the samples using the model
-        with torch.no_grad():
-            z = model.encode(indices)
-
+        z = z.T
         fig, ax = plt.subplots()
-        ax.plot(z.cpu().numpy())
+        ax.scatter(z[0], z[1], s=1)
 
         # Log the figure at W&B
         trainer.logger.log_image(key="Latent space", images=[fig])
