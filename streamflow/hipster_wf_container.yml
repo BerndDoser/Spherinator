@@ -7,10 +7,10 @@ workflows:
     bindings:
       - step: generate_hips
         target:
-          model: docker-ubuntu
+          model: container
 
 models:
-  docker-ubuntu:
+  container:
     type: docker
     config:
-      image: spherinator:latest
+      image: ghcr.io/bernddoser/spherinator:container

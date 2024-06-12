@@ -46,6 +46,11 @@ Execute with streamflow:
 
 ```bash
 streamflow run example_container.yml
+streamflow run hipster_images_local.yml    # Single hipster task using default values
+streamflow run hipster_wf_local.yml        # Hipster workflow running local
+streamflow run hipster_wf_container.yml    # Hipster workflow running container
+streamflow run hipster_wf_ssh.yml          # Hipster workflow running ssh
+streamflow run hipster_wf_slurm.yml        # Hipster workflow running slurm
 ```
 
 Create report:

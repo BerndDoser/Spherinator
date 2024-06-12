@@ -10,7 +10,10 @@ arguments: [ --task, images ]
 
 inputs:
   config:
-    type: File
+    type: File?
+    default:
+      class: File
+      location: ./shapes.yml
     inputBinding:
       prefix: --config
   output_path:
