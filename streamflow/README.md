@@ -31,6 +31,7 @@ https://view.commonwl.org/
 
 ```bash
 cwltool hipster_images.cwl --config shapes.yml
+cwltool hipster.cwl
 ```
 
 ```bash

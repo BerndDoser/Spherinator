@@ -4,7 +4,11 @@ cwlVersion: v1.2
 class: Workflow
 
 inputs:
-  config: File
+  config:
+    type: File?
+    default:
+      class: File
+      location: ./shapes.yml
 
 outputs:
   hipster: Directory
@@ -15,4 +19,4 @@ steps:
     in:
       config: config
     out:
-      hipster: hipster
+      - hipster

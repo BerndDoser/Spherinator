@@ -23,7 +23,7 @@ inputs:
       prefix: --output_folder
 
 outputs:
-  hips:
+  hipster:
     type: Directory
     outputBinding:
       glob: $(inputs.output_path)
