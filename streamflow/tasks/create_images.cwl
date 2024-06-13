@@ -3,7 +3,7 @@
 cwlVersion: v1.2
 class: CommandLineTool
 
-label: "Generate images"
+label: "Generate galaxy images"
 
 baseCommand: hipster
 arguments: [ --task, images ]

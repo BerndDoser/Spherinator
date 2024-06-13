@@ -31,8 +31,8 @@ https://view.commonwl.org/
 
 Execute single task:
 ```bash
-cwltool hipster_images.cwl --config shapes.yml
-cwl-runner hipster_images.cwl hipster_input.yml
+cwltool tasks/create_images.cwl --config shapes.yml
+cwl-runner tasks/create_images.cwl hipster_input.yml
 ```
 
 Execute workflow:

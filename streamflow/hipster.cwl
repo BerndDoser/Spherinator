@@ -17,7 +17,7 @@ outputs:
 
 steps:
   create_images:
-    run: hipster_images.cwl
+    run: tasks/create_images.cwl
     in:
       config: config
     out:
