@@ -5,7 +5,7 @@ workflows:
     config:
       file: hipster.cwl
     bindings:
-      - step: create_images
+      - step: /
         target:
           model: slurm
 
@@ -15,3 +15,4 @@ models:
     config:
       hostname: cascade
       username: doserbd
+      file: sbatch.sh

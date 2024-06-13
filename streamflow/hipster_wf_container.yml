@@ -5,7 +5,7 @@ workflows:
     config:
       file: hipster.cwl
     bindings:
-      - step: create_images
+      - step: /
         target:
           model: container
 
@@ -14,3 +14,6 @@ models:
     type: docker
     config:
       image: ghcr.io/bernddoser/spherinator:container
+      volume:
+       - /hits/basement:/hits/basement
+      user: "15005"

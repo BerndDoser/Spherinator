@@ -45,7 +45,9 @@ cwltool hipster.cwl
 
 - [Website](https://streamflow.di.unito.it/)
 - [GitHub](https://github.com/alpha-unito/streamflow)
-- [Documentation](https://streamflow.readthedocs.io/en/latest/)
+- [Docu v0.1](https://streamflow.di.unito.it/documentation/0.1/index.html)
+- [Docu v0.2](https://streamflow.di.unito.it/documentation/0.2/index.html)
+
 
 
 ### Installation
