@@ -1,0 +1,6 @@
+version: v1.0
+workflows:
+  hipster:
+    type: cwl
+    config:
+      file: hipster.cwl

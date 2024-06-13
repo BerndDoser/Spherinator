@@ -29,21 +29,34 @@ https://view.commonwl.org/
 
 ![](../docs/assets/HiPSter_workflow.svg)
 
+Execute single task:
 ```bash
 cwltool hipster_images.cwl --config shapes.yml
-cwltool hipster.cwl
+cwl-runner hipster_images.cwl hipster_input.yml
 ```
 
+Execute workflow:
 ```bash
-cwl-runner hipster_images.cwl hipster_input.yml
+cwltool hipster.cwl
 ```
 
 
 ## Streamflow
 
-Python package: https://pypi.org/project/streamflow/
+- [Website](https://streamflow.di.unito.it/)
+- [GitHub](https://github.com/alpha-unito/streamflow)
+- [Documentation](https://streamflow.readthedocs.io/en/latest/)
 
-Execute with streamflow:
+
+### Installation
+
+```bash
+pip install streamflow
+```
+https://pypi.org/project/streamflow/
+
+
+### Usage
 
 ```bash
 streamflow run example_container.yml
@@ -58,4 +71,5 @@ Create report:
 
 ```bash
 streamflow report --format html
+python -m http.server 9000
 ```
