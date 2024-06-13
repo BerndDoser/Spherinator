@@ -11,7 +11,9 @@ inputs:
       location: ./shapes.yml
 
 outputs:
-  hipster: Directory
+  outdir:
+    type: Directory
+    outputSource: create_images/hipster
 
 steps:
   create_images:
