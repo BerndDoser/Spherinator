@@ -1035,6 +1035,20 @@ files = [
 ]
 
 [[package]]
+name = "envd"
+version = "0.3.45"
+description = "A development environment management tool for data scientists."
+optional = false
+python-versions = ">=3.6"
+files = [
+    {file = "envd-0.3.45-py2.py3-none-macosx_10_9_x86_64.whl", hash = "sha256:1e8fecf69293a3cd42f7ab544323f355831b0a5ee02827c25f4d142f49783799"},
+    {file = "envd-0.3.45-py2.py3-none-macosx_11_0_arm64.whl", hash = "sha256:a8032bc2374f15f0fc7b9230b9cb771e6b220ffb58990d3ea97699e34bc853b0"},
+    {file = "envd-0.3.45-py2.py3-none-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:4b3b1a196bfbf889d7d793c23896fe8c58efb14923790d787a7fe1ebed7a644f"},
+    {file = "envd-0.3.45-py2.py3-none-musllinux_1_1_x86_64.whl", hash = "sha256:278218a7c269dbc2e75b46cf4e810c5e3ac2ae560730b2f1e66edcb62729d553"},
+    {file = "envd-0.3.45.tar.gz", hash = "sha256:d475cc0fec647127bb0d765a9be0c69ac31d7beee1f83ebf6253893320f2ae0b"},
+]
+
+[[package]]
 name = "exceptiongroup"
 version = "1.2.1"
 description = "Backport of PEP 654 (exception groups)"
@@ -1126,55 +1140,6 @@ protoc-gen-openapiv2 = "*"
 
 [[package]]
 name = "flytekit"
-version = "1.12.0"
-description = "Flyte SDK for Python"
-optional = false
-python-versions = "<3.13,>=3.8"
-files = [
-    {file = "flytekit-1.12.0-py3-none-any.whl", hash = "sha256:ffd25ef72678fce58bcb24e605dd34b2a5a1d74db6108ef08657dc64271d06c5"},
-    {file = "flytekit-1.12.0.tar.gz", hash = "sha256:82d744149e2172ed9fecf73a549a6d5de7a7553bee0f967da2d971820e795524"},
-]
-
-[package.dependencies]
-adlfs = ">=2023.3.0"
-click = ">=6.6,<9.0"
-cloudpickle = ">=2.0.0"
-croniter = ">=0.3.20,<4.0.0"
-dataclasses-json = ">=0.5.2,<0.5.12"
-diskcache = ">=5.2.1"
-docker = ">=4.0.0,<7.0.0"
-docstring-parser = ">=0.9.0"
-flyteidl = ">=1.11.0b1"
-fsspec = ">=2023.3.0"
-gcsfs = ">=2023.3.0"
-googleapis-common-protos = ">=1.57"
-grpcio = "*"
-grpcio-status = "*"
-importlib-metadata = "*"
-isodate = "*"
-joblib = "*"
-jsonpickle = "*"
-keyring = ">=18.0.1"
-markdown-it-py = "*"
-marshmallow-enum = "*"
-marshmallow-jsonschema = ">=0.12.0"
-mashumaro = ">=3.11"
-protobuf = "!=4.25.0"
-pyarrow = "*"
-pygments = "*"
-python-json-logger = ">=2.0.0"
-pytimeparse = ">=1.1.8,<2.0.0"
-pyyaml = "<5.4.0 || >5.4.0,<5.4.1 || >5.4.1,<6.0.0 || >6.0.0"
-requests = ">=2.18.4,<3.0.0"
-rich = "*"
-rich-click = "*"
-s3fs = ">=2023.3.0,<2024.3.1 || >2024.3.1"
-statsd = ">=3.0.0,<4.0.0"
-typing-extensions = "*"
-urllib3 = ">=1.22,<2.0.0"
-
-[[package]]
-name = "flytekit"
 version = "1.12.1b4"
 description = "Flyte SDK for Python"
 optional = false
@@ -1223,6 +1188,40 @@ s3fs = ">=2023.3.0,<2024.3.1 || >2024.3.1"
 statsd = ">=3.0.0,<4.0.0"
 typing-extensions = "*"
 urllib3 = ">=1.22,<3.0.0"
+
+[[package]]
+name = "flytekitplugins-envd"
+version = "1.12.2"
+description = "This package enables users to easily build a Docker image for tasks or workflows."
+optional = false
+python-versions = ">=3.8"
+files = [
+    {file = "flytekitplugins_envd-1.12.2-py3-none-any.whl", hash = "sha256:d23e518a8db7eb4f4a466a5ff899f5d6abb050274eac7b638b4dd802ec3e6d67"},
+    {file = "flytekitplugins_envd-1.12.2.tar.gz", hash = "sha256:21d02a7cdfc4789ffc78ed7760da25ebb4fa03e53afa1ed12beb48269fbcf481"},
+]
+
+[package.dependencies]
+envd = "*"
+flytekit = ">=1.12.0"
+
+[[package]]
+name = "flytekitplugins-kfpytorch"
+version = "1.12.2"
+description = "K8s based Pytorch plugin for Flytekit"
+optional = false
+python-versions = ">=3.8"
+files = [
+    {file = "flytekitplugins_kfpytorch-1.12.2-py3-none-any.whl", hash = "sha256:0185f3d9b676ca611d4772b66664f0197833abb527463ecb3e396b9c6cccb9a8"},
+    {file = "flytekitplugins_kfpytorch-1.12.2.tar.gz", hash = "sha256:8e8dadbccd69f235048f7604f145a28b209151a8db9c1e37ec07a66302c053e6"},
+]
+
+[package.dependencies]
+cloudpickle = "*"
+flyteidl = ">=1.5.1"
+flytekit = ">=1.6.1"
+
+[package.extras]
+elastic = ["torch (>=1.9.0)"]
 
 [[package]]
 name = "fonttools"
@@ -5706,4 +5705,4 @@ test = ["big-O", "importlib-resources", "jaraco.functools", "jaraco.itertools", 
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.9,<3.13"
-content-hash = "0a1941b4940e2e39954f867f0bd703ddb837623951ae52444f09de85e96cc1cf"
+content-hash = "4eb7cdb43544cbbe1fe277dc7531a4f073e21f34f8e8ac73f89c28e564ce7ed1"
