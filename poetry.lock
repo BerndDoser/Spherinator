@@ -122,6 +122,24 @@ files = [
 frozenlist = ">=1.1.0"
 
 [[package]]
+name = "aiosqlite"
+version = "0.20.0"
+description = "asyncio bridge to the standard sqlite3 module"
+optional = false
+python-versions = ">=3.8"
+files = [
+    {file = "aiosqlite-0.20.0-py3-none-any.whl", hash = "sha256:36a1deaca0cac40ebe32aac9977a6e2bbc7f5189f23f4a54d5908986729e5bd6"},
+    {file = "aiosqlite-0.20.0.tar.gz", hash = "sha256:6d35c8c256637f4672f843c31021464090805bf925385ac39473fb16eaaca3d7"},
+]
+
+[package.dependencies]
+typing_extensions = ">=4.0"
+
+[package.extras]
+dev = ["attribution (==1.7.0)", "black (==24.2.0)", "coverage[toml] (==7.4.1)", "flake8 (==7.0.0)", "flake8-bugbear (==24.2.6)", "flit (==3.9.0)", "mypy (==1.8.0)", "ufmt (==2.3.0)", "usort (==1.0.8.post1)"]
+docs = ["sphinx (==7.2.6)", "sphinx-mdinclude (==0.5.3)"]
+
+[[package]]
 name = "alabaster"
 version = "0.7.16"
 description = "A light, configurable Sphinx theme"
@@ -134,12 +152,13 @@ files = [
 
 [[package]]
 name = "antlr4-python3-runtime"
-version = "4.9.3"
-description = "ANTLR 4.9.3 runtime for Python 3.7"
+version = "4.13.1"
+description = "ANTLR 4.13.1 runtime for Python 3"
 optional = false
 python-versions = "*"
 files = [
-    {file = "antlr4-python3-runtime-4.9.3.tar.gz", hash = "sha256:f224469b4168294902bb1efa80a8bf7855f24c99aef99cbefc1bcd3cce77881b"},
+    {file = "antlr4-python3-runtime-4.13.1.tar.gz", hash = "sha256:3cd282f5ea7cfb841537fe01f143350fdb1c0b1ce7981443a2fa8513fddb6d1a"},
+    {file = "antlr4_python3_runtime-4.13.1-py3-none-any.whl", hash = "sha256:78ec57aad12c97ac039ca27403ad61cb98aaec8a3f9bb8144f889aa0fa28b943"},
 ]
 
 [[package]]
@@ -867,13 +886,13 @@ testing = ["pytest (<9)", "pytest-mock"]
 
 [[package]]
 name = "cwltool"
-version = "3.1.20240508115724"
+version = "3.1.20240404144621"
 description = "Common workflow language reference implementation"
 optional = false
 python-versions = "<4,>=3.8"
 files = [
-    {file = "cwltool-3.1.20240508115724-py3-none-any.whl", hash = "sha256:95950ca9641f4943f4fc27a820e26b5b5af4638e64e257a0123808ca6e4ec95a"},
-    {file = "cwltool-3.1.20240508115724.tar.gz", hash = "sha256:72e238f281ac1622fc97a2bce970b475e0e8263d1579b0ba67359ef4ffbf0e2a"},
+    {file = "cwltool-3.1.20240404144621-py3-none-any.whl", hash = "sha256:728d17cabb5eddff731399f26450057e8957e86c52c2022f892c0b00f9611be0"},
+    {file = "cwltool-3.1.20240404144621.tar.gz", hash = "sha256:41e0fdcf4650acfe5df482848b302d7003a53d98cb8596411380841182b41bcc"},
 ]
 
 [package.dependencies]
@@ -1675,17 +1694,6 @@ test = ["attrs (>=22.2.0)", "jsonargparse[test-no-urls]", "pydantic (>=2.3.0)", 
 test-no-urls = ["pytest (>=6.2.5)", "pytest-subtests (>=0.8.0)"]
 typing-extensions = ["typing-extensions (>=3.10.0.0)"]
 urls = ["requests (>=2.18.4)"]
-
-[[package]]
-name = "jsonref"
-version = "1.1.0"
-description = "jsonref is a library for automatic dereferencing of JSON Reference objects for Python."
-optional = false
-python-versions = ">=3.7"
-files = [
-    {file = "jsonref-1.1.0-py3-none-any.whl", hash = "sha256:590dc7773df6c21cbf948b5dac07a72a251db28b0238ceecce0a2abfa8ec30a9"},
-    {file = "jsonref-1.1.0.tar.gz", hash = "sha256:32fe8e1d85af0fdefbebce950af85590b22b60f9e95443176adbde4e1ecea552"},
-]
 
 [[package]]
 name = "jsonschema"
@@ -4612,31 +4620,39 @@ tests = ["cython", "littleutils", "pygments", "pytest", "typeguard"]
 
 [[package]]
 name = "streamflow"
-version = "0.1.6"
+version = "0.2.0.dev11"
 description = "StreamFlow framework"
 optional = false
-python-versions = ">=3.8, <4"
+python-versions = ">=3.8"
 files = [
-    {file = "streamflow-0.1.6-py2.py3-none-any.whl", hash = "sha256:0ed03ddaa1008a2de967b5dcbe1c8d7b36ca538a11704790a8fac16fd236b077"},
-    {file = "streamflow-0.1.6.tar.gz", hash = "sha256:0e0356323ecf910dd8ced3ceff1450ee30ec4b8a17b4a6cf39fdc8812659bc01"},
+    {file = "streamflow-0.2.0.dev11-py3-none-any.whl", hash = "sha256:2be723056cfde66c747c2f494183231e03369f08dfe3ef237efa61cfbccb6878"},
+    {file = "streamflow-0.2.0.dev11.tar.gz", hash = "sha256:0c950e256b1e59817bc1353858db5fd63ff02651a0034eae4930b60b413f91fb"},
 ]
 
 [package.dependencies]
-aiohttp = "*"
-antlr4-python3-runtime = "<4.10"
-asyncssh = "*"
-bcrypt = "*"
-cachetools = "*"
-cwltool = "*"
-Jinja2 = "*"
-jsonref = "*"
-jsonschema = "*"
-kubernetes-asyncio = ">=22.6.2"
-pandas = "*"
+aiohttp = "3.9.5"
+aiosqlite = "0.20.0"
+antlr4-python3-runtime = "4.13.1"
+asyncssh = "2.14.2"
+bcrypt = "4.1.3"
+cachetools = "5.3.3"
+cwl-utils = "0.33"
+cwltool = "3.1.20240404144621"
+importlib-metadata = "7.1.0"
+importlib-resources = "6.4.0"
+Jinja2 = "3.1.4"
+jsonschema = "4.22.0"
+kubernetes-asyncio = "29.0.0"
+psutil = "5.9.8"
+rdflib = "7.0.0"
+yattag = "1.15.2"
 
 [package.extras]
-docs = ["sphinx", "sphinx-jsonschema", "sphinx-rtd-theme"]
-report = ["kaleido", "plotly"]
+bandit = ["bandit (==1.7.8)"]
+docs = ["sphinx (==7.3.7)", "sphinx-jsonschema (==1.19.1)", "sphinx-rtd-theme (==2.0.0)"]
+lint = ["black (==24.4.2)", "codespell (==2.2.6)", "flake8-bugbear (==24.4.26)", "pyupgrade (==3.15.2)"]
+report = ["kaleido (==0.2.1)", "pandas (==2.2.2)", "plotly (==5.22.0)"]
+test = ["cwltest (==2.5.20240425111257)", "pytest (==8.1.1)", "pytest-asyncio (==0.21.1)", "pytest-cov (==5.0.0)", "pytest-xdist (==3.6.1)"]
 
 [[package]]
 name = "sympy"
@@ -5182,6 +5198,16 @@ idna = ">=2.0"
 multidict = ">=4.0"
 
 [[package]]
+name = "yattag"
+version = "1.15.2"
+description = "Generate HTML or XML in a pythonic way. Pure python alternative to web template engines.Can fill HTML forms with default values and error messages."
+optional = false
+python-versions = "*"
+files = [
+    {file = "yattag-1.15.2.tar.gz", hash = "sha256:aad9f540bd22dc503e5b5506cc47856facf081aa71fd35f727371b63e1e402bf"},
+]
+
+[[package]]
 name = "zipp"
 version = "3.19.0"
 description = "Backport of pathlib-compatible object wrapper for zip files"
@@ -5199,4 +5225,4 @@ testing = ["big-O", "jaraco.functools", "jaraco.itertools", "jaraco.test", "more
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.9,<3.13"
-content-hash = "ff319b39b9cb0c8e9afc839beba21d80c8c086d7f50f3828df48dde0abc2d657"
+content-hash = "1669ffdbc1bbd5829a891fa78158abc6ab7f0fa5203064a7ffd562e7d30d0a19"
