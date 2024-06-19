@@ -8,7 +8,7 @@ inputs:
     type: File?
     default:
       class: File
-      location: ./shapes.yml
+      location: tasks/shapes.yml
 
 outputs:
   outdir:

@@ -7,9 +7,9 @@ workflows:
     bindings:
       - step: /
         target:
-          model: slurm
+          deployment: slurm
 
-models:
+deployments:
   slurm:
     type: slurm
     config:

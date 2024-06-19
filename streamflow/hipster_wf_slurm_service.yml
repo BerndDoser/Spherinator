@@ -1,0 +1,26 @@
+version: v1.0
+workflows:
+  hipster:
+    type: cwl
+    config:
+      file: hipster.cwl
+    bindings:
+      - step: /create_images
+        target:
+          deployment: slurm
+          service: cascade
+
+deployments:
+  ssh-cascade:
+    type: ssh
+    config:
+      nodes:
+       - cascade
+  slurm:
+    type: slurm
+    config:
+      maxConcurrentJobs: 10
+      services:
+        cascade:
+          partition: cascade.p
+    wraps: ssh-cascade
