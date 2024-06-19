@@ -1,9 +1,7 @@
 import os
 
 import lightning as L
-
-# from flytekit import PodTemplate, Resources
-from flytekit import ImageSpec, task, workflow
+from flytekit import ImageSpec, PodTemplate, Resources, task, workflow
 
 # from flytekit.extras.accelerators import T4
 from flytekit.types.directory import FlyteDirectory
@@ -92,6 +90,7 @@ NUM_DEVICES = 8
 
 @task(
     container_image=custom_image,
+    requests=Resources(mem="2Gi", cpu="2"),
     #     task_config=Elastic(
     #         nnodes=NUM_NODES,
     #         nproc_per_node=NUM_DEVICES,
@@ -119,7 +118,7 @@ def train_model(dataloader_num_workers: int) -> FlyteDirectory:
     model_dir = os.path.join(root_dir, "model")
     trainer = L.Trainer(
         default_root_dir=model_dir,
-        max_epochs=3,
+        max_epochs=1,
         # num_nodes=NUM_NODES,
         # devices=NUM_DEVICES,
         # accelerator="gpu",
