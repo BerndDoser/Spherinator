@@ -2,18 +2,16 @@ import os
 
 import lightning as L
 from flytekit import ImageSpec, PodTemplate, Resources, task, workflow
-
-# from flytekit.extras.accelerators import T4
+from flytekit.extras.accelerators import T4
 from flytekit.types.directory import FlyteDirectory
-
-# from flytekitplugins.kfpytorch.task import Elastic
-# from kubernetes.client.models import (
-#     V1Container,
-#     V1EmptyDirVolumeSource,
-#     V1PodSpec,
-#     V1Volume,
-#     V1VolumeMount,
-# )
+from flytekitplugins.kfpytorch.task import Elastic
+from kubernetes.client.models import (
+    V1Container,
+    V1EmptyDirVolumeSource,
+    V1PodSpec,
+    V1Volume,
+    V1VolumeMount,
+)
 from torch import nn, optim
 from torch.utils.data import DataLoader
 from torchvision.datasets import MNIST
@@ -23,14 +21,25 @@ custom_image = ImageSpec(
     packages=[
         "torch",
         "torchvision",
-        # "flytekitplugins-kfpytorch",
-        # "kubernetes",
+        "flytekitplugins-kfpytorch",
+        "kubernetes",
         "lightning",
     ],
     # use the cuda and python_version arguments to build a CUDA image
-    # cuda="12.1.0"
-    # python_version="3.10"
+    cuda="12.1.0",
+    python_version="3.10",
     registry="registry.h-its.org/doserbd/flyte",
+)
+
+
+container = V1Container(
+    name=custom_image.name,
+    volume_mounts=[V1VolumeMount(mount_path="/dev/shm", name="dshm")],
+)
+volume = V1Volume(name="dshm", empty_dir=V1EmptyDirVolumeSource(medium="Memory"))
+custom_pod_template = PodTemplate(
+    primary_container_name=custom_image.name,
+    pod_spec=V1PodSpec(containers=[container], volumes=[volume]),
 )
 
 
@@ -84,22 +93,21 @@ class MNISTDataModule(L.LightningDataModule):
         )
 
 
-NUM_NODES = 2
-NUM_DEVICES = 8
+NUM_NODES = 1  # 2
+NUM_DEVICES = 1  # 8
 
 
 @task(
     container_image=custom_image,
-    requests=Resources(mem="2Gi", cpu="2"),
-    #     task_config=Elastic(
-    #         nnodes=NUM_NODES,
-    #         nproc_per_node=NUM_DEVICES,
-    #         rdzv_configs={"timeout": 36000, "join_timeout": 36000},
-    #         max_restarts=3,
-    #     ),
-    #     accelerator=T4,
-    #     requests=Resources(mem="32Gi", cpu="48", gpu="8", ephemeral_storage="100Gi"),
-    #     pod_template=custom_pod_template,
+    task_config=Elastic(
+        nnodes=NUM_NODES,
+        nproc_per_node=NUM_DEVICES,
+        rdzv_configs={"timeout": 36000, "join_timeout": 36000},
+        max_restarts=3,
+    ),
+    accelerator=T4,
+    requests=Resources(mem="32Gi", cpu="48", gpu="1", ephemeral_storage="100Gi"),
+    pod_template=custom_pod_template,
 )
 def train_model(dataloader_num_workers: int) -> FlyteDirectory:
     """Train an autoencoder model on the MNIST."""
@@ -119,9 +127,9 @@ def train_model(dataloader_num_workers: int) -> FlyteDirectory:
     trainer = L.Trainer(
         default_root_dir=model_dir,
         max_epochs=1,
-        # num_nodes=NUM_NODES,
-        # devices=NUM_DEVICES,
-        # accelerator="gpu",
+        num_nodes=NUM_NODES,
+        devices=NUM_DEVICES,
+        accelerator="gpu",
         strategy="ddp",
         precision="16-mixed",
     )
