@@ -1,4 +1,6 @@
+import logging
 import os
+import time
 
 import lightning as L
 from flytekit import ImageSpec, PodTemplate, Resources, task, workflow
@@ -39,7 +41,9 @@ container = V1Container(
 volume = V1Volume(name="dshm", empty_dir=V1EmptyDirVolumeSource(medium="Memory"))
 custom_pod_template = PodTemplate(
     primary_container_name=custom_image.name,
-    pod_spec=V1PodSpec(containers=[container], volumes=[volume]),
+    pod_spec=V1PodSpec(
+        runtime_class_name="nvidia", containers=[container], volumes=[volume]
+    ),
 )
 
 
@@ -99,13 +103,13 @@ NUM_DEVICES = 1  # 8
 
 @task(
     container_image=custom_image,
-    task_config=Elastic(
-        nnodes=NUM_NODES,
-        nproc_per_node=NUM_DEVICES,
-        rdzv_configs={"timeout": 36000, "join_timeout": 36000},
-        max_restarts=3,
-    ),
-    accelerator=T4,
+    # task_config=Elastic(
+    #     nnodes=NUM_NODES,
+    #     nproc_per_node=NUM_DEVICES,
+    #     rdzv_configs={"timeout": 36000, "join_timeout": 36000},
+    #     max_restarts=3,
+    # ),
+    # accelerator=T4,
     requests=Resources(mem="32Gi", cpu="48", gpu="1", ephemeral_storage="100Gi"),
     pod_template=custom_pod_template,
 )
@@ -122,6 +126,13 @@ def train_model(dataloader_num_workers: int) -> FlyteDirectory:
         batch_size=4,
         dataloader_num_workers=dataloader_num_workers,
     )
+
+    logging.info(
+        f"Training the model with {dataloader_num_workers} dataloader workers."
+    )
+
+    # while True:
+    #     time.sleep(10)
 
     model_dir = os.path.join(root_dir, "model")
     trainer = L.Trainer(
