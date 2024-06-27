@@ -19,6 +19,10 @@ from .convolutional_decoder_256 import ConvolutionalDecoder256
 from .convolutional_encoder import ConvolutionalEncoder
 from .convolutional_encoder_2 import ConvolutionalEncoder2
 from .embedding_decoder import EmbeddingDecoder
+from .rotational2_autoencoder import Rotational2Autoencoder
+from .rotational2_variational_autoencoder_power import (
+    Rotational2VariationalAutoencoderPower,
+)
 from .rotational_autoencoder import RotationalAutoencoder
 from .rotational_variational_autoencoder_power import (
     RotationalVariationalAutoencoderPower,
@@ -33,6 +37,8 @@ __all__ = [
     "ConvolutionalEncoder",
     "ConvolutionalEncoder2",
     "EmbeddingDecoder",
+    "Rotational2Autoencoder",
+    "Rotational2VariationalAutoencoderPower",
     "RotationalAutoencoder",
     "RotationalVariationalAutoencoderPower",
     "SpherinatorModule",
