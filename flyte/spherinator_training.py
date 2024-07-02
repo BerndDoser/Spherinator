@@ -4,6 +4,7 @@ import lightning as L
 from flytekit import ImageSpec, PodTemplate, Resources, task, workflow
 from flytekit.extras.accelerators import T4
 from flytekit.types.directory import FlyteDirectory
+from get_data import get_data
 from kubernetes.client.models import (
     V1Container,
     V1EmptyDirVolumeSource,
@@ -20,6 +21,7 @@ custom_image = ImageSpec(
         "flytekitplugins-kfpytorch",
         "kubernetes",
         "spherinator",
+        "minio",
     ],
     # use the cuda and python_version arguments to build a CUDA image
     cuda="12.1.0",
@@ -42,28 +44,6 @@ custom_pod_template = PodTemplate(
 
 
 @task(
-    container_image=ImageSpec(
-        packages=["minio"],
-        registry="registry.h-its.org/doserbd/flyte",
-    ),
-)
-def get_data() -> FlyteDirectory:
-    from minio import Minio
-
-    data_dir = os.path.join(os.getcwd(), "data")
-    os.makedirs(data_dir, exist_ok=True)
-
-    client = Minio("minio-api-itssv197.h-its.org", secure=False)
-
-    for item in client.list_objects("illustris", recursive=True):
-        client.fget_object(
-            "illustris", item.object_name, os.path.join(data_dir, item.object_name)
-        )
-
-    return FlyteDirectory(path=str(data_dir))
-
-
-@task(
     container_image=custom_image,
     requests=Resources(mem="32Gi", cpu="48", gpu="1", ephemeral_storage="100Gi"),
     pod_template=custom_pod_template,
@@ -81,7 +61,7 @@ def train_model(data_dir: FlyteDirectory) -> FlyteDirectory:
     model_dir = os.path.join(os.getcwd(), "model")
     trainer = L.Trainer(
         default_root_dir=model_dir,
-        max_epochs=100,
+        max_epochs=3,
         # strategy="ddp",
         # precision="16-mixed",
         # accelerator="gpu",
