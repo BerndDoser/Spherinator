@@ -19,3 +19,14 @@ export FLYTECTL_CONFIG=~/.flyte/config-sandbox.yaml
 
 - https://docs.flyte.org/en/latest/flyte_agents/index.html
 - https://discuss.flyte.org/t/8281866/hi-all-i-am-currently-evaluating-if-flyte-could-be-used-as-a
+
+
+## Add registry
+
+[Flyte docu](https://docs.flyte.org/en/latest/user_guide/environment_setup.html#local-registry)
+
+
+```bash
+envd context create --name flyte2 --builder tcp --builder-address registry.h-its.org --use
+envd context ls
+```
