@@ -10,3 +10,4 @@ wandb/
 docs/_build/
 docs/html/
 MNIST/
+data/
