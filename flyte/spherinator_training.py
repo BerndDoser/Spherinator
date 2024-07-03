@@ -1,8 +1,8 @@
 import os
+from pathlib import Path
 
 import lightning as L
 from flytekit import ImageSpec, PodTemplate, Resources, task, workflow
-from flytekit.extras.accelerators import T4
 from flytekit.types.directory import FlyteDirectory
 from get_data import get_data
 from kubernetes.client.models import (
@@ -12,6 +12,7 @@ from kubernetes.client.models import (
     V1Volume,
     V1VolumeMount,
 )
+from tools import find_directories_with_extensions
 
 from spherinator.data import IllustrisSdssDataModule
 from spherinator.models import RotationalVariationalAutoencoderPower
@@ -52,10 +53,8 @@ def train_model(data_dir: FlyteDirectory) -> FlyteDirectory:
 
     model = RotationalVariationalAutoencoderPower()
 
-    data_dir.download()
-    datamodule = IllustrisSdssDataModule(
-        [str(data_dir.path) + "/two-images/TNG100/sdss/snapnum_099/data"]
-    )
+    data_dirs = find_directories_with_extensions(Path(data_dir), "fits")
+    datamodule = IllustrisSdssDataModule(data_dirs)
     datamodule.setup("fit")
 
     model_dir = os.path.join(os.getcwd(), "model")
