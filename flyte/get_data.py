@@ -6,6 +6,8 @@ from minio import Minio
 
 
 @task(
+    cache=True,
+    cache_version="1.0",
     container_image=ImageSpec(
         packages=["minio"],
         python_version="3.10",
