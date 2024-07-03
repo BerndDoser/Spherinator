@@ -12,8 +12,25 @@ export FLYTECTL_CONFIG=~/.flyte/config-sandbox.yaml
 
 ## Kubernetes
 
-- [Single node k8s](https://github.com/davidmirror-ops/flyte-the-hard-way/blob/main/docs/on-premises/single-node/001-configure-single-node-k8s.md)
-- k3s
+List pods
+
+```bash
+kubectl get pod -A -o wide
+kubectl get pod --namespace=spherinator-development -o wide
+```
+
+Print logs
+
+```bash
+kubectl logs --namespace=spherinator-development < pod_name >
+```
+
+Enter running pod
+
+```bash
+kubectl exec --stdin --tty --namespace=spherinator-development < pod_name > -- /bin/bash
+```
+
 
 ## Flyte using SLURM Rest API
 
