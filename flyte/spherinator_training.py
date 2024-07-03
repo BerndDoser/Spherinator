@@ -49,7 +49,7 @@ custom_pod_template = PodTemplate(
     requests=Resources(mem="32Gi", cpu="48", gpu="1", ephemeral_storage="100Gi"),
     pod_template=custom_pod_template,
 )
-def train_model(data_dir: FlyteDirectory) -> FlyteDirectory:
+def train_model(data_dir: FlyteDirectory, max_epochs: int) -> FlyteDirectory:
 
     model = RotationalVariationalAutoencoderPower()
 
@@ -60,7 +60,7 @@ def train_model(data_dir: FlyteDirectory) -> FlyteDirectory:
     model_dir = os.path.join(os.getcwd(), "model")
     trainer = L.Trainer(
         default_root_dir=model_dir,
-        max_epochs=3,
+        max_epochs=max_epochs,
         # strategy="ddp",
         # precision="16-mixed",
         # accelerator="gpu",
@@ -72,9 +72,9 @@ def train_model(data_dir: FlyteDirectory) -> FlyteDirectory:
 
 
 @workflow
-def wf() -> FlyteDirectory:
+def wf(max_epochs: int) -> FlyteDirectory:
     data_dir = get_data()
-    model_dir = train_model(data_dir=data_dir)
+    model_dir = train_model(data_dir=data_dir, max_epochs=max_epochs)
     return model_dir
 
 
