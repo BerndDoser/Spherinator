@@ -8,7 +8,6 @@ Flyte is built on top of Kubernetes.
 
 Create a new Flyte project:
 ```bash
-flytectl create project spherinator
 flytectl create project --name spherinator --id spherinator --description "test workflows"
 ```
 
