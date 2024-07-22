@@ -11,7 +11,7 @@ It contains the following modules:
 3. `RotationalVariationalAutoencoderPower`:
     A convolutional variational autoencoder using power spherical distribution.
 """
-from .Zernike_layer import (Zernike_layer,Multilin,Lintrans3)
+
 from .convolutional_decoder import ConvolutionalDecoder
 from .convolutional_decoder_224 import ConvolutionalDecoder224
 from .convolutional_decoder_256 import ConvolutionalDecoder256
@@ -19,8 +19,10 @@ from .convolutional_encoder import ConvolutionalEncoder
 from .rotational_autoencoder import RotationalAutoencoder
 from .rotational_variational_autoencoder_power import (
     RotationalVariationalAutoencoderPower,
+    Zernike_embedding,
 )
 from .spherinator_module import SpherinatorModule
+from .Zernike_layer import Lintrans3, Multilin, Zernike_layer
 
 __all__ = [
     "ConvolutionalDecoder",
@@ -32,5 +34,6 @@ __all__ = [
     "SpherinatorModule",
     "Zernike_layer",
     "Multilin",
-    "Lintrans3"
+    "Lintrans3",
+    "Zernike_embedding",
 ]
