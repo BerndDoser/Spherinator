@@ -1,9 +1,10 @@
 """ Provides access to the Illustris sdss images.
 """
+
 import os
-import torch
 
 import numpy
+import torch
 from astropy.io import fits
 
 from .spherinator_dataset import SpherinatorDataset
