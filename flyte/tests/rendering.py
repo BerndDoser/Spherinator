@@ -1,24 +1,16 @@
-from typing import Optional
-
-import pandas as pd
-import plotly.express as px
+import flytekit
 from flytekit import task, workflow
+from flytekit.types.file import FlyteFile
+from flytekitplugins.deck.renderer import ImageRenderer
 
 
-@task(disable_deck=False)
-def iris_data(
-    sample_frac: Optional[float] = None,
-    random_state: Optional[int] = None,
-) -> pd.DataFrame:
-    data = px.data.iris()
-    if sample_frac is not None:
-        data = data.sample(frac=sample_frac, random_state=random_state)
-    return data
+@task(enable_deck=True)
+def image_renderer(image: FlyteFile) -> None:
+    flytekit.Deck("Image Renderer", ImageRenderer().to_html(image_src=image))
 
 
 @workflow
-def wf(
-    sample_frac: Optional[float] = None,
-    random_state: Optional[int] = None,
-):
-    iris_data(sample_frac=sample_frac, random_state=random_state)
+def image_renderer_wf(
+    image: FlyteFile = "https://bit.ly/3KZ95q4",
+) -> None:
+    image_renderer(image=image)
