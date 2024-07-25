@@ -50,7 +50,7 @@ torchvision = "^0"
 # torchvision = {url = "https://download.pytorch.org/whl/nightly/cu121/torchvision-0.18.0.dev20240101%2Bcu121-cp39-cp39-linux_x86_64.whl"}
 # pytorch-triton = {url = "https://download.pytorch.org/whl/nightly/pytorch_triton-2.2.0%2Be28a256d71-cp39-cp39-linux_x86_64.whl"}
 
-flytekit = "^1.11.0"
+flytekit = "^1.13"
 scikit-learn = "^1.3.2"
 flytekitplugins-kfpytorch = "^1.12.2"
 flytekitplugins-envd = "^1.12.2"
