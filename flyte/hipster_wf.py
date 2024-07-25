@@ -1,10 +1,7 @@
 import os
-from pathlib import Path
 
-import lightning as L
 from flytekit import ImageSpec, PodTemplate, Resources, task, workflow
 from flytekit.types.directory import FlyteDirectory
-from get_data import get_data
 from kubernetes.client.models import (
     V1Container,
     V1EmptyDirVolumeSource,
@@ -12,9 +9,8 @@ from kubernetes.client.models import (
     V1Volume,
     V1VolumeMount,
 )
-from tools import find_directories_with_extensions
 
-from spherinator.data import IllustrisSdssDataModule
+from hipster import Hipster
 from spherinator.models import RotationalVariationalAutoencoderPower
 
 custom_image = ImageSpec(
@@ -49,35 +45,21 @@ custom_pod_template = PodTemplate(
     requests=Resources(mem="32Gi", cpu="48", gpu="1", ephemeral_storage="100Gi"),
     pod_template=custom_pod_template,
 )
-def generate_hips(model: FlyteDirectory) -> FlyteDirectory:
+def generate_hips() -> FlyteDirectory:
 
     model = RotationalVariationalAutoencoderPower()
 
-    data_dirs = find_directories_with_extensions(Path(data_dir), "fits")
-    datamodule = IllustrisSdssDataModule(data_dirs)
-    datamodule.setup("fit")
-
-    model_dir = os.path.join(os.getcwd(), "model")
-    trainer = L.Trainer(
-        default_root_dir=model_dir,
-        max_epochs=3,
-        # strategy="ddp",
-        # precision="16-mixed",
-        # accelerator="gpu",
-        inference_mode=False,
-    )
-
-    trainer.fit(model=model, datamodule=datamodule)
-    return FlyteDirectory(path=str(model_dir))
+    hipster_dir = os.path.join(os.getcwd(), "hipster")
+    hipster = Hipster(output_folder=hipster_dir, title="Illustris")
+    hipster.generate_hips(model)
+    return FlyteDirectory(path=str(hipster_dir))
 
 
 @workflow
 def wf() -> FlyteDirectory:
-    hips_tiles = generate_hips(model=model)
-    catalog = generate_catalog()
-    data_dir = get_data()
-    model_dir = train_model(data_dir=data_dir)
-    return model_dir
+    hipster_dir = generate_hips()
+    # catalog = generate_catalog()
+    return hipster_dir
 
 
 if __name__ == "__main__":
