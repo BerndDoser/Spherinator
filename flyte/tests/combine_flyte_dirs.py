@@ -22,6 +22,13 @@ def t2() -> FlyteDirectory:
     return FlyteDirectory(dir)
 
 
+@task
+def combine(dir1: FlyteDirectory, dir2: FlyteDirectory) -> FlyteDirectory:
+    dir1.download()
+    dir2.download()
+    return FlyteDirectory(dir1.path)
+
+
 @workflow
 def wf() -> FlyteDirectory:
     dir1 = t1()

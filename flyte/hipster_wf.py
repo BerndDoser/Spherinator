@@ -68,6 +68,13 @@ def generate_catalog(
     return FlyteDirectory(path=str(hipster_dir))
 
 
+@task
+def combine(dir1: FlyteDirectory, dir2: FlyteDirectory) -> FlyteDirectory:
+    dir1.download()
+    dir2.download()
+    return FlyteDirectory(dir1.path)
+
+
 @workflow
 def wf(config_file: FlyteFile, checkpoint_file: FlyteFile) -> FlyteDirectory:
 
@@ -97,9 +104,7 @@ def wf(config_file: FlyteFile, checkpoint_file: FlyteFile) -> FlyteDirectory:
     hipster_dir = generate_hips(model=model)
     catalog_dir = generate_catalog(model=model, datamodule=datamodule)
 
-    hipster_dir.
-
-    return hipster_dir
+    return combine(hipster_dir, catalog_dir)
 
 
 if __name__ == "__main__":
