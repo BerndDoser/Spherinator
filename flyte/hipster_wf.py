@@ -15,6 +15,8 @@ from kubernetes.client.models import (
 )
 
 from hipster import Hipster
+from spherinator.data.spherinator_data_module import SpherinatorDataModule
+from spherinator.models.spherinator_module import SpherinatorModule
 
 custom_image = ImageSpec(
     packages=[
@@ -48,7 +50,26 @@ custom_pod_template = PodTemplate(
     requests=Resources(mem="32Gi", cpu="48", gpu="1", ephemeral_storage="100Gi"),
     pod_template=custom_pod_template,
 )
-def generate_hips(config_file: FlyteFile, checkpoint_file: FlyteFile) -> FlyteDirectory:
+def generate_hips(model: SpherinatorModule) -> FlyteDirectory:
+
+    hipster_dir = os.path.join(os.getcwd(), "hipster")
+    hipster = Hipster(output_folder=hipster_dir, title="Illustris")
+    hipster.generate_hips(model)
+    return FlyteDirectory(path=str(hipster_dir))
+
+
+def generate_catalog(
+    model: SpherinatorModule, datamodule: SpherinatorDataModule
+) -> FlyteDirectory:
+
+    hipster_dir = os.path.join(os.getcwd(), "hipster")
+    hipster = Hipster(output_folder=hipster_dir, title="Illustris")
+    hipster.generate_catalog(model, datamodule)
+    return FlyteDirectory(path=str(hipster_dir))
+
+
+@workflow
+def wf(config_file: FlyteFile, checkpoint_file: FlyteFile) -> FlyteDirectory:
 
     with open(config_file, "r", encoding="utf-8") as stream:
         config = yaml.load(stream, Loader=yaml.Loader)
@@ -66,18 +87,18 @@ def generate_hips(config_file: FlyteFile, checkpoint_file: FlyteFile) -> FlyteDi
     model.load_state_dict(checkpoint["state_dict"])
     model.eval()
 
-    hipster_dir = os.path.join(os.getcwd(), "hipster")
-    hipster = Hipster(output_folder=hipster_dir, title="Illustris")
-    hipster.generate_hips(model)
-    return FlyteDirectory(path=str(hipster_dir))
+    data_class_path = config["data"]["class_path"]
+    module_name, class_name = data_class_path.rsplit(".", 1)
+    module = importlib.import_module(module_name)
+    data_class = getattr(module, class_name)
+    data_init_args = config["data"]["init_args"]
+    datamodule = data_class(**data_init_args)
 
+    hipster_dir = generate_hips(model=model)
+    catalog_dir = generate_catalog(model=model, datamodule=datamodule)
 
-@workflow
-def wf(config_file: FlyteFile, checkpoint_file: FlyteFile) -> FlyteDirectory:
-    hipster_dir = generate_hips(
-        config_file=config_file, checkpoint_file=checkpoint_file
-    )
-    # catalog = generate_catalog()
+    hipster_dir.
+
     return hipster_dir
 
 
