@@ -58,6 +58,7 @@ def generate_hips(model: SpherinatorModule) -> FlyteDirectory:
     return FlyteDirectory(path=str(hipster_dir))
 
 
+@task
 def generate_catalog(
     model: SpherinatorModule, datamodule: SpherinatorDataModule
 ) -> FlyteDirectory:
@@ -75,9 +76,8 @@ def combine(dir1: FlyteDirectory, dir2: FlyteDirectory) -> FlyteDirectory:
     return FlyteDirectory(dir1.path)
 
 
-@workflow
-def wf(config_file: FlyteFile, checkpoint_file: FlyteFile) -> FlyteDirectory:
-
+@task
+def get_model(config_file: FlyteFile) -> SpherinatorModule:
     with open(config_file, "r", encoding="utf-8") as stream:
         config = yaml.load(stream, Loader=yaml.Loader)
 
@@ -87,19 +87,40 @@ def wf(config_file: FlyteFile, checkpoint_file: FlyteFile) -> FlyteDirectory:
     model_class = getattr(module, class_name)
     model_init_args = config["model"]["init_args"]
     model = model_class(**model_init_args)
+    return model
 
+
+@task
+def read_checkpoint(
+    checkpoint_file: FlyteFile, model: SpherinatorModule
+) -> SpherinatorModule:
     # Load the parameters from the checkpoint file
     device = "cuda" if torch.cuda.is_available() else "cpu"
     checkpoint = torch.load(checkpoint_file, map_location=device)
     model.load_state_dict(checkpoint["state_dict"])
     model.eval()
+    return model
 
+
+@task
+def get_datamodule(config_file: FlyteFile) -> SpherinatorDataModule:
+    with open(config_file, "r", encoding="utf-8") as stream:
+        config = yaml.load(stream, Loader=yaml.Loader)
     data_class_path = config["data"]["class_path"]
     module_name, class_name = data_class_path.rsplit(".", 1)
     module = importlib.import_module(module_name)
     data_class = getattr(module, class_name)
     data_init_args = config["data"]["init_args"]
     datamodule = data_class(**data_init_args)
+    return datamodule
+
+
+@workflow
+def wf(config_file: FlyteFile, checkpoint_file: FlyteFile) -> FlyteDirectory:
+
+    model = get_model(config_file=config_file)
+    model = read_checkpoint(checkpoint_file=checkpoint_file, model=model)
+    datamodule = get_datamodule(config_file=config_file)
 
     hipster_dir = generate_hips(model=model)
     catalog_dir = generate_catalog(model=model, datamodule=datamodule)
