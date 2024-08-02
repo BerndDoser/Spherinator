@@ -1,5 +1,4 @@
-from flytekit import ContainerTask, ImageSpec, PodTemplate, Resources, task
-from flytekit.types.directory import FlyteDirectory
+from flytekit import ContainerTask, ImageSpec, PodTemplate, Resources, kwtypes
 from flytekit.types.file import FlyteFile
 from kubernetes.client.models import (
     V1Container,
@@ -30,16 +29,6 @@ custom_pod_template = PodTemplate(
 )
 
 
-@task(
-    container_image=custom_image,
-    requests=Resources(mem="32Gi", cpu="48", gpu="1", ephemeral_storage="100Gi"),
-    pod_template=custom_pod_template,
-)
-def lightning_training(config_file: FlyteFile) -> FlyteDirectory:
-    LightningCLI(save_config_kwargs={"overwrite": True})
-    return FlyteDirectory(path="/tmp")
-
-
 lightning_training_task = ContainerTask(
     name="lightning_training_task",
     input_data_dir="/var/inputs",
@@ -48,6 +37,7 @@ lightning_training_task = ContainerTask(
     outputs=kwtypes(area=float, metadata=str),
     image=custom_image,
     pod_template=custom_pod_template,
+    requests=Resources(mem="32Gi", cpu="48", gpu="1", ephemeral_storage="100Gi"),
     command=[
         "spherinator",
         "fit",
