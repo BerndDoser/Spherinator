@@ -2,7 +2,7 @@ from preprocessing.spherinator_data_preprocessing import data_preprocess_api
 
 
 def test_preprocessing(tmp_path):
-    result = data_preprocess_api(
+    catalog = data_preprocess_api(
         sim="TNG50-2",
         selection_type="stellar mass",
         min_mass=5e10,
@@ -19,3 +19,6 @@ def test_preprocessing(tmp_path):
         output_path=tmp_path,
         debug=False,
     )
+
+    assert "SubID" in catalog
+    assert catalog["SubID"] == [79417, 79580, 79811, 83918, 86024]
