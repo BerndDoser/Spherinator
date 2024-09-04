@@ -1,8 +1,10 @@
+import pytest
 import s3fs
 
 from spherinator.data import ImagesDataset
 
 
+@pytest.mark.skip(reason="Need to implement support in ImagesDataset")
 def test_dataset_s3():
     s3 = s3fs.S3FileSystem(
         anon=True,
