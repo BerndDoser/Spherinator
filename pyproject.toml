@@ -53,6 +53,7 @@ ruff = "^0.5.4"
 black = "^24.4.2"
 
 [tool.poetry.group.dev.dependencies]
+black = "^24.8.0"
 flake8 = "^7.0.0"
 jupytext = "^1.15.2"
 pip-licenses = "^5.0"
