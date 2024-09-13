@@ -1,14 +1,10 @@
 import argparse
 import math
+import os.path
 import random
 
 import numpy
 import numpy as np
-import os.path
-from skimage.measure import block_reduce
-from sympy import ord0
-
-
 #import scipy
 #import scipy.special as sp
 #import seaborn as sns
@@ -19,6 +15,8 @@ import torch.nn.functional as F
 import torchvision.transforms.v2.functional as functional
 from numpy import convolve
 from power_spherical import HypersphericalUniform, PowerSpherical
+from skimage.measure import block_reduce
+from sympy import ord0
 #from scipy.constants import physical_constants
 from torch.optim import Adam
 
@@ -214,7 +212,7 @@ class ZernikeClassifier(SpherinatorModule):
         return torch.tensor(y)
 
 class Zernike_embedding(nn.Module):
-    def __init__(self, n_max = 30 , device = 'cuda:2' ):
+    def __init__(self, n_max = 30 , device = 'cuda' ):
         super().__init__()
 
         if os.path.isfile('Zernike_decode_encode{}'.format(n_max)):
@@ -226,7 +224,7 @@ class Zernike_embedding(nn.Module):
 
         #self.Zernike_matrix = self.create_filter(n_max)
         self.Zernike_matrix = self.Zernike_matrix.to(device)
-        #self.device = 'cuda:2'
+        #self.device = 'cuda'
     def calc_size(self,n_max):
         n_max_calc = n_max+1
         lengh = int(((n_max_calc+1)*n_max_calc/2)/2+math.ceil(n_max_calc/4))
@@ -290,7 +288,7 @@ class Zernike_embedding(nn.Module):
 
         grid_extend = 1
         #grid_resolution = 680
-        z = x = np.linspace(-grid_extend, grid_extend, 2048)
+        z = x = np.linspace(-grid_extend, grid_extend, 512)
         z, x = np.meshgrid(z, x)
 
         #print(Zernike_functions)
@@ -308,7 +306,7 @@ class Zernike_embedding(nn.Module):
         #print(out[0])
         # Add restriction to r<1
         out_mask = self.mask(x,z)
-        out = torch.tensor(np.array(out*out_mask),dtype=torch.float)#, device =  'cuda:2')
+        out = torch.tensor(np.array(out*out_mask),dtype=torch.float)#, device =  'cuda')
 
         norm = []
         for i in range(len(Zernike_functions)):
@@ -321,7 +319,7 @@ class Zernike_embedding(nn.Module):
 
         out = out/norm
         out = np.array(out)
-        out = block_reduce(out,(1,1, 16, 16),func=np.sum)
+        out = block_reduce(out,(1,1, 4, 4),func=np.sum)
         #print(np.array(out)[0,0,100:102,100:102])
         #print('this was encoding')
         return torch.tensor(out)
@@ -341,7 +339,7 @@ class Zernike_embedding(nn.Module):
 
 
 class Zernike_decode(nn.Module):
-    def __init__(self, n_max = 30, device = 'cuda:2' ):
+    def __init__(self, n_max = 30, device = 'cuda' ):
         super().__init__()
 
         if os.path.isfile('Zernike_decode_encode{}'.format(n_max)):
@@ -353,7 +351,7 @@ class Zernike_decode(nn.Module):
 
         #self.Zernike_matrix = self.create_filter(n_max)
         self.Zernike_matrix= self.Zernike_matrix.to(device)
-        #self.device = 'cuda:2'
+        #self.device = 'cuda'
 
     def calc_size(self,n_max):
         n_max_calc = n_max+1
@@ -418,7 +416,7 @@ class Zernike_decode(nn.Module):
 
         grid_extend = 1
         #grid_resolution = 680
-        z = x = np.linspace(-grid_extend, grid_extend, 2048)
+        z = x = np.linspace(-grid_extend, grid_extend, 512)
 
         z, x = np.meshgrid(z, x)
 
@@ -459,7 +457,7 @@ class Zernike_decode(nn.Module):
         #print('out')
         #print(np.shape(np.array(out)))
         #print(np.array(out)[0,0,200:202,200:202])
-        out = block_reduce(out,(1,1, 16, 16),func=np.sum)
+        out = block_reduce(out,(1,1, 4, 4),func=np.sum)
         #print('out')
         #print(np.shape(np.array(out)))
         #print(np.array(out)[0,0,50:52,50:52])

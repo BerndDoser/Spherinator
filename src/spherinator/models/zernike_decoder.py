@@ -139,20 +139,20 @@ def Init_zero(in_size,n_max):
     return zeros
 
 '''
-Encode = ZernikeDecoder(1,1,1).to('cuda:2')
+Encode = ZernikeDecoder(1,1,1).to('cuda')
 print(Encode.Input1)
-input_1 = torch.zeros(1,1,2,2,device='cuda:2')
+input_1 = torch.zeros(1,1,2,2,device='cuda')
 input_1[0,0,0,0] = 2000
 #input_1[0,0,1,0] = 2000
 print(Encode(input_1))
 
 
-input_2 = torch.zeros(1,1,2,2,device='cuda:2')
+input_2 = torch.zeros(1,1,2,2,device='cuda')
 #input_2[0,0,0,0] = 2000
 input_2[0,0,1,1] = 2000
 print(Encode(input_2))
 
-input_2 = torch.zeros(1,1,2,2,device='cuda:2')
+input_2 = torch.zeros(1,1,2,2,device='cuda')
 #input_2[0,0,0,0] = 2000
 input_2[0,0,1,0] = 2000
 print(Encode(input_2))
