@@ -16,6 +16,9 @@ else:
 # See https://github.com/Lightning-AI/lightning/discussions/16698
 torch.set_float32_matmul_precision("high")
 
+# Enable anomaly detection for debugging
+# See https://pytorch.org/docs/stable/autograd.html#torch.autograd.detect_anomaly
+torch.autograd.detect_anomaly()
 
 def main():
     LightningCLI(save_config_kwargs={"overwrite": True})
