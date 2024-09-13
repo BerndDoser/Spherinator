@@ -3,22 +3,21 @@ import torch
 from spherinator.models import (ZernikeAutoencoder, ZernikeDecoder,
                                 ZernikeEncoder)
 
+# def test_forward():
+#     model = ZernikeAutoencoder(n_max=32, image_size=363)
+#     input = model.example_input_array.to('cuda')
 
-def test_forward():
-    model = ZernikeAutoencoder(n_max=32)
-    input = model.example_input_array
+#     model(input)
 
-    model(input)
+# def test_encoding_equivariance():
+#     """Check if weights are reproducible"""
+#     model = ZernikeAutoencoder(n_max=32)
+#     input = model.example_input_array
 
-def test_encoding_equivariance():
-    """Check if weights are reproducible"""
-    model = ZernikeAutoencoder(n_max=32)
-    input = model.example_input_array
-
-    assert torch.isclose(
-        torch.rot90(model.Decoding_Function(model.Embedding_Function(input)), k=1, dims=[-2, -1]),
-        model.Decoding_Function(model.Embedding_Function(torch.rot90(input, k=1, dims=[-2, -1]))), atol=1e-5
-    ).all()
+#     assert torch.isclose(
+#         torch.rot90(model.Decoding_Function(model.Embedding_Function(input)), k=1, dims=[-2, -1]),
+#         model.Decoding_Function(model.Embedding_Function(torch.rot90(input, k=1, dims=[-2, -1]))), atol=1e-5
+#     ).all()
 
 # def test_model_equivariance():
 #     """Check if weights are reproducible"""

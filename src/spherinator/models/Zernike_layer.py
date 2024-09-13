@@ -52,9 +52,9 @@ class Multilin(nn.Module):
     '''
     def __init__(self, inp,out,size,Non_lin=False):
         super().__init__()
-        #self.device = 'cuda:2'
-        #self.weight_lin = torch.nn.parameter.Parameter(torch.nn.init.normal_(torch.empty(size,inp,out, device = self.device)))#/np.sqrt(inp))
-        self.weight_lin = torch.nn.parameter.Parameter(torch.nn.init.normal_(torch.empty(size,inp,out)))#/np.sqrt(inp))
+        self.device = 'cuda'
+        self.weight_lin = torch.nn.parameter.Parameter(torch.nn.init.normal_(torch.empty(size,inp,out, device = self.device)))#/np.sqrt(inp))
+        # self.weight_lin = torch.nn.parameter.Parameter(torch.nn.init.normal_(torch.empty(size,inp,out)))#/np.sqrt(inp))
         self.Non_lin_bool = Non_lin
         if Non_lin:
             self.Non_lin = Non_linearity()
@@ -67,7 +67,7 @@ class Multilin(nn.Module):
 
 
 class Zernike_layer(nn.Module):
-    def __init__(self, n_max = 30,n_max_2=None, n_out=30, multichanneled = False,in_channels = 1 ,intermediate_channels=1, out_channels =1 ,last_layer = False, fast_test_dimensionality = False,normalize=False, device = 'cuda:2'):
+    def __init__(self, n_max = 30,n_max_2=None, n_out=30, multichanneled = False,in_channels = 1 ,intermediate_channels=1, out_channels =1 ,last_layer = False, fast_test_dimensionality = False,normalize=False, device = 'cuda'):
         super().__init__()
         #self.device = device
         '''
@@ -526,7 +526,7 @@ class Zernike_Norms(nn.Module):
     Not having them normalized leads to an overrepresentation of filters of higher norm.
 
     '''
-    def __init__(self, n_max = 30, device= 'cuda:2'):
+    def __init__(self, n_max = 30, device= 'cuda'):
         super().__init__()
         #self.device = device
         #self.norm_output = self.calc_norms(n_max).to(device)
@@ -541,7 +541,7 @@ class Zernike_Norms(nn.Module):
         #size = self.calc_size(n_max)
 
         #self.norm_output= torch.tensor(self.norm_output).to(device)
-        #self.device = 'cuda:2'
+        #self.device = 'cuda'
 
 
 
