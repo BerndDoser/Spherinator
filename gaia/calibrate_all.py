@@ -56,11 +56,8 @@ def single_convert(file, path):
     with suppress_stdout():
         df, _ = calibrate(data, sampling=sampling, save_file=False)
 
-    data["flux"] = df["flux"]
-    data["flux_error"] = df["flux_error"]
-
     # Use pyarrow to write the data to a parquet file
-    table = pa.Table.from_pandas(data)
+    table = pa.Table.from_pandas(df)
 
     parquet.write_table(
         table,
