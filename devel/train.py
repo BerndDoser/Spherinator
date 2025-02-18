@@ -1,10 +1,10 @@
 # Source: https://lightning.ai/lightning-ai/studios/train-a-diffusion-model-with-pytorch-lightning
 
-import torch
 import diffusers
+import lightning as L
+import torch
 from datasets import load_dataset
 from torchvision import transforms
-import lightning as L
 
 
 class DiffusionModel(L.LightningModule):
@@ -87,5 +87,10 @@ class DiffusionData(L.LightningDataModule):
 if __name__ == "__main__":
     model = DiffusionModel()
     data = DiffusionData()
-    trainer = L.Trainer(max_epochs=150, precision="bf16-mixed")
+    trainer = L.Trainer(
+        max_epochs=10,
+        precision="bf16-mixed",
+        devices=4,
+        profiler="simple",
+    )
     trainer.fit(model, data)
