@@ -51,6 +51,8 @@ torchvision = "^0"
 gaiaxpy = "^2.1.2"
 pyarrow = "^18.1.0"
 wandb = "^0.19.1"
+diffusers = {extras = ["torch"], version = "^0.32.2"}
+datasets = "^3.3.1"
 
 [tool.poetry.group.dev.dependencies]
 black = "^25.1"
