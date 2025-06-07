@@ -7,7 +7,7 @@ import torch.nn.functional as F
 from power_spherical import PowerSpherical
 
 from spherinator.models import (
-    AutoencoderPure,
+    Autoencoder,
     ConvolutionalDecoder1D,
     ConvolutionalEncoder1D,
 )
@@ -65,12 +65,13 @@ class DistributionModel(torch.nn.Module):
             marks=pytest.mark.xfail,
         ),
         (
-            ConvolutionalEncoder1D(12, 3),
+            ConvolutionalEncoder1D([1, 12], 3),
             torch.randn(2, 1, 12),
         ),
         pytest.param(
-            AutoencoderPure(
-                ConvolutionalEncoder1D(12, 3), ConvolutionalDecoder1D(3, 12)
+            Autoencoder(
+                ConvolutionalEncoder1D([1, 12], 3),
+                ConvolutionalDecoder1D(3, [1, 12], [1, 12]),
             ),
             torch.randn(2, 1, 12),
             marks=pytest.mark.xfail(

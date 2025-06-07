@@ -21,15 +21,6 @@ def pytest_runtest_setup():
 
 
 @pytest.fixture(scope="session")
-def shape_path(tmp_path_factory):
-    """Mock data for the ShapesDataset."""
-    path = tmp_path_factory.mktemp("data")
-    np.save(path / "boxes.npy", np.random.random((2, 64, 64)))
-    np.save(path / "circles.npy", np.random.random((2, 64, 64)))
-    return path
-
-
-@pytest.fixture(scope="session")
 def parquet_file(tmp_path_factory):
     """Mock parquet data file."""
     series = []
@@ -113,10 +104,10 @@ def parquet_2d_metadata(tmp_path_factory):
         {
             "id": range(10),
             "data": [
-                np.random.rand(3, 2).astype(np.float32).flatten() for _ in range(10)
+                np.random.rand(12, 12).astype(np.float32).flatten() for _ in range(10)
             ],
         },
-        metadata={"data_shape": "(1,3,2)"},
+        metadata={"data_shape": "(1,12,12)"},
     )
 
     file = tmp_path_factory.mktemp("data") / "test.parquet"
@@ -154,6 +145,24 @@ def parquet_test_norm(tmp_path_factory):
                 np.array([1.7, -8.2, -0.4], dtype=np.float32),
             ],
         }
+    )
+
+    file = tmp_path_factory.mktemp("data") / "test.parquet"
+    pq.write_table(table, file)
+
+    return file
+
+
+@pytest.fixture(scope="session")
+def parquet_test_sampling(tmp_path_factory):
+    """Mock parquet file for testing error sampling."""
+
+    table = pa.table(
+        {
+            "flux": [np.random.rand(12).astype(np.float32) for _ in range(10)],
+            "flux_error": [np.random.rand(12).astype(np.float32) for _ in range(10)],
+        },
+        metadata={"flux_shape": "(1,12)", "flux_error_shape": "(1,12)"},
     )
 
     file = tmp_path_factory.mktemp("data") / "test.parquet"

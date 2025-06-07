@@ -3,7 +3,7 @@ from typing import Callable, Optional
 from torch import nn
 
 
-class ConsecutiveConvTranspose1DLayer:
+class ConsecutiveConvTranspose2DLayer:
     def __init__(
         self,
         kernel_size: int = 3,
@@ -14,7 +14,7 @@ class ConsecutiveConvTranspose1DLayer:
         bias: bool = True,
         out_channels: list[int] = [1],
         activation: Optional[Callable[..., nn.Module]] = nn.ReLU,
-        norm: Optional[Callable[..., nn.Module]] = nn.BatchNorm1d,
+        norm: Optional[Callable[..., nn.Module]] = nn.BatchNorm2d,
         pooling: Optional[Callable[..., nn.Module]] = None,
     ) -> None:
         """A class that defines a consecutive convolutional layer.
@@ -29,7 +29,7 @@ class ConsecutiveConvTranspose1DLayer:
             activation (Optional[Callable[..., nn.Module]], optional): The activation function.
             Defaults to nn.ReLU.
             norm (Optional[Callable[..., nn.Module]], optional): The normalization layer.
-            Defaults to nn.BatchNorm1d.
+            Defaults to nn.BatchNorm2d.
             pooling (Optional[Callable[..., nn.Module]], optional): The pooling layer.
             Defaults to None.
             transpose (bool, optional): If the convolutional layer is a transpose convolutional layer.
@@ -50,7 +50,7 @@ class ConsecutiveConvTranspose1DLayer:
     def __get_single_layer(self, out_channels: int) -> nn.Module:
         layers = []
         layers.append(
-            nn.LazyConvTranspose1d(
+            nn.LazyConvTranspose2d(
                 out_channels=out_channels,
                 kernel_size=self.kernel_size,
                 stride=self.stride,

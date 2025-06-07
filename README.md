@@ -1,11 +1,18 @@
 [![Build Status](https://github.com/HITS-AIN/Spherinator/actions/workflows/python-package.yml/badge.svg?branch=main)](https://github.com/HITS-AIN/Spherinator/actions/workflows/python-package.yml?branch=main)
 [![Documentation Status](https://readthedocs.org/projects/spherinator/badge/?version=latest)](https://spherinator.readthedocs.io/en/latest/?badge=latest)
-![versions](https://img.shields.io/badge/python-3.9%20%7C%203.10%20%7C%203.11%20%7C%203.12-blue)
+![versions](https://img.shields.io/badge/python-3.10%20%7C%203.11%20%7C%203.12-blue)
 
-# Spherinator & HiPSter
+# Spherinator
 
-`Spherinator` and `HiPSter` are tools to provide much needed explorative access and visualization for multimodal data from extremely large astrophysical datasets, ranging from exascale cosmological simulations to multi-billion object observational galaxy surveys. `Spherinator` uses dimensionality reduction to learn a low-dimensional representation of galaxy structure, and `HiPSter` creates a interactive hierarchical spherical vizualization of the entire dataset. They currently support multichannel maps or images as input. `Spherinator` uses [PyTorch Lightning](https://lightning.ai/docs/pytorch/stable/) to implement a convolutional neural network (CNN) based variational autoencoder (VAE) with a spherical latent space.
-`HiPSter` creates HiPS tilings and a catalog which can be visualized interactively on the surface of a sphere using [Aladin Lite](https://github.com/cds-astro/aladin-lite).
+[Spherinator](https://github.com/HITS-AIN/Spherinator) and
+[HiPSter](https://github.com/HITS-AIN/HiPSter) are tools that provide explorative access
+and visualization for multimodal data from extremely large astrophysical datasets, ranging from
+exascale cosmological simulations to multi-billion object observational galaxy surveys.
+
+A variational autoencoder (VAE) will be trained using
+[PyTorch Lightning](https://lightning.ai/docs/pytorch/stable/)
+to compress the structural data into a low-dimensional spherical latent space.
+
 
 <p align="center">
   <img src="docs/assets/P404_f2.png" width="400" height="400">
@@ -37,7 +44,7 @@ This project is licensed under the [Apache-2.0 License](http://www.apache.org/li
 
 ## Citation
 
-If you use Spherinator & HiPSter in your research, we provide a [citation](./CITATION.cff) to use:
+If you use Spherinator in your research, we provide a [citation](./CITATION.cff) to use:
 
 ```bibtex
 @article{Polsterer_Spherinator_and_HiPSter_2024,

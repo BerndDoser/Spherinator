@@ -4,7 +4,12 @@ import pytest
 import torch
 from torch.utils.data import DataLoader
 
-from spherinator.data import ParquetDataModule, ParquetDataset
+from spherinator.data import (
+    ParquetDataModule,
+    ParquetDataset,
+    ParquetDatasetSampling,
+    ParquetDatasetWithError,
+)
 
 
 def test_pyarray_dataset_scanner(parquet_file):
@@ -114,7 +119,7 @@ def test_parquet_data_module_2d(parquet_2d_metadata):
 
     batch = next(iter(dataloader))
 
-    assert batch.shape == (5, 1, 3, 2)
+    assert batch.shape == (5, 1, 12, 12)
     assert batch.dtype == torch.float32
 
     assert len(list(data.train_dataloader())) == 2
@@ -123,7 +128,7 @@ def test_parquet_data_module_2d(parquet_2d_metadata):
 def test_parquet_table_metadata(parquet_2d_metadata):
     """Test reading metadata from a parquet table."""
     table = pq.read_table(parquet_2d_metadata)
-    assert table.schema.metadata[b"data_shape"] == b"(1,3,2)"
+    assert table.schema.metadata[b"data_shape"] == b"(1,12,12)"
 
 
 def test_parquet(parquet_test_merge):
@@ -179,3 +184,38 @@ def test_parquet_dataset_with_index(parquet_numpy_file):
     _, index = next(iter(dataloader))
 
     assert (index == torch.tensor([0, 1])).all()
+
+
+def test_parquet_dataset_sampling(parquet_test_sampling):
+    """Test the ParquetDataset with error sampling."""
+    dataset = ParquetDatasetSampling(
+        parquet_test_sampling, data_column="flux", error_column="flux_error"
+    )
+    dataloader = DataLoader(dataset, batch_size=2, num_workers=1)
+
+    batch = next(iter(dataloader))
+
+    assert batch.shape == (2, 1, 12)
+
+
+def test_parquet_dataset_with_error(parquet_test_sampling):
+    """Test the ParquetDataset with error."""
+    dataset = ParquetDatasetWithError(
+        parquet_test_sampling, data_column="flux", error_column="flux_error"
+    )
+    dataloader = DataLoader(dataset, batch_size=2, num_workers=1)
+
+    flux, flux_error = next(iter(dataloader))
+
+    assert flux.shape == (2, 1, 12)
+    assert flux_error.shape == (2, 1, 12)
+
+
+def test_parquet_dataset_2(parquet_test_sampling):
+    """Test the ParquetDataset with error."""
+    dataset = ParquetDataset(parquet_test_sampling, data_column="flux")
+    dataloader = DataLoader(dataset, batch_size=2, num_workers=1)
+
+    batch = next(iter(dataloader))
+
+    assert batch.shape == (2, 1, 12)
