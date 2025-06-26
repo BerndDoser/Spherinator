@@ -1,0 +1,14 @@
+import cudf
+from torch.utils.data import Dataset
+
+
+class DatasetRAPIDSParquet(Dataset):
+    def __init__(self, path: str, column: str):
+        self.column = column
+        self.data = cudf.read_parquet(path, columns=[column])
+
+    def __len__(self):
+        return len(self.data)
+
+    def __getitem__(self, idx):
+        return self.data[self.column][idx]
