@@ -2,6 +2,7 @@ import torch.utils.benchmark as benchmark
 from dataset_numpy import DatasetNumpy
 from dataset_rapids_parquet import DatasetRAPIDSParquet
 from dataset_torch import DatasetTorch
+from datasets import load_dataset
 from torch.utils.data import DataLoader
 
 label = "Benchmark DataLoader"
@@ -11,6 +12,7 @@ for dataset in [
     DatasetTorch(10000),
     DatasetNumpy(10000),
     DatasetRAPIDSParquet("benchmark/illustris.parquet", "data"),
+    load_dataset("parquet", data_files="benchmark/illustris.parquet", split="train"),
 ]:
     for batch_size in [32, 512]:
         dataloader = DataLoader(dataset, batch_size=batch_size, shuffle=False)

@@ -31,6 +31,7 @@ dependencies = [
     "sphinxcontrib-bibtex>=2.6.3",
     "nvidia-dali-cuda120>=1.50.0",
     "cudf-cu12>=25.6.0",
+    "datasets>=3.6.0",
 ]
 
 [project.optional-dependencies]
