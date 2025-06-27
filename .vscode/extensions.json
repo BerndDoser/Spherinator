@@ -8,5 +8,6 @@
         "ms-toolsai.jupyter",
         "nvidia.nsight-vscode-edition",
         "ziruiwang.nvidia-monitor",
+        "janisdd.vscode-edit-csv",
     ]
 }

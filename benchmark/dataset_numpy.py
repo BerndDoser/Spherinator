@@ -3,8 +3,8 @@ from torch.utils.data import Dataset
 
 
 class DatasetNumpy(Dataset):
-    def __init__(self, size: int):
-        self.data = np.random.rand(size, 3, 224, 224)
+    def __init__(self, size: list[int]):
+        self.data = np.random.random(size).astype(np.float32)
 
     def __len__(self):
         return len(self.data)
