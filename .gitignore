@@ -8,6 +8,7 @@ __pycache__
 *.pt
 *.sarif
 config.yaml
+data/
 dist/
 docs/_build/
 docs/html/

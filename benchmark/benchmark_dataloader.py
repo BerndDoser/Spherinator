@@ -11,8 +11,8 @@ results = []
 for dataset in [
     DatasetTorch(10000),
     DatasetNumpy(10000),
-    DatasetRAPIDSParquet("benchmark/illustris.parquet", "data"),
-    load_dataset("parquet", data_files="benchmark/illustris.parquet", split="train"),
+    DatasetRAPIDSParquet("data/Illustris_TNG_SKIRT_SDSS", "data"),
+    load_dataset("parquet", data_dir="data/Illustris_TNG_SKIRT_SDSS", split="train"),
 ]:
     for batch_size in [32, 512]:
         dataloader = DataLoader(dataset, batch_size=batch_size, shuffle=False)
