@@ -1,8 +1,10 @@
 import torch.utils.benchmark as benchmark
 from dataset_numpy import DatasetNumpy
-from dataset_rapids_parquet import DatasetRAPIDSParquet
+
+# from dataset_rapids_parquet import DatasetRAPIDSParquet
 from dataset_torch import DatasetTorch
-from datasets import load_dataset
+
+# from datasets import load_dataset
 from torch.utils.data import DataLoader
 
 from spherinator.data import ParquetDataset
