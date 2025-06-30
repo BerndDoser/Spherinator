@@ -13,11 +13,11 @@ results = []
 for dataset in [
     DatasetTorch([200, 3, 128, 128]),
     DatasetNumpy([200, 3, 128, 128]),
-    DatasetRAPIDSParquet("data/Illustris_TNG_SKIRT_SDSS", "data"),
-    load_dataset("parquet", data_dir="data/Illustris_TNG_SKIRT_SDSS", split="train"),
     ParquetDataset("data/Illustris_TNG_SKIRT_SDSS", "data"),
+    # DatasetRAPIDSParquet("data/Illustris_TNG_SKIRT_SDSS", "data"),
+    # load_dataset("parquet", data_dir="data/Illustris_TNG_SKIRT_SDSS", split="train"),
 ]:
-    for batch_size in [32, 200]:
+    for batch_size in [32]:
         dataloader = DataLoader(dataset, batch_size=batch_size, shuffle=False)
         timer = benchmark.Timer(
             stmt="for batch in dataloader: pass",
@@ -26,7 +26,7 @@ for dataset in [
             label=label,
             sub_label=f"[{batch_size}]",
         )
-        results.append(timer.blocked_autorange(min_run_time=5))
+        results.append(timer.blocked_autorange(min_run_time=20))
 
 compare = benchmark.Compare(results)
 compare.print()
