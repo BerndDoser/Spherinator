@@ -4,3 +4,9 @@ Dummy numpy,genoa-hopper-02,1.9
 ParquetDataset,genoa-hopper-02,5.8
 Huggingface,genoa-hopper-02,4293.8
 RAPIDS Parquet,genoa-hopper-02,14385.8
+Dummy torch,rh04715,8.3
+Dummy numpy,rh04715,9.5
+ParquetDataset,rh04715,11.3
+Huggingface,rh04715,5961.6
+RAPIDS Parquet,rh04715,16303.8
+,,

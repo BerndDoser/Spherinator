@@ -8,6 +8,7 @@ __pycache__
 *.pt
 *.sarif
 config.yaml
+cufile.log
 data/
 dist/
 docs/_build/
