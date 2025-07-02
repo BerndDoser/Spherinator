@@ -167,3 +167,20 @@ def parquet_test_sampling(tmp_path_factory):
     pq.write_table(table, file)
 
     return file
+
+
+@pytest.fixture(scope="session")
+def parquet_large(tmp_path_factory):
+    """Mock parquet data with 200 arrays."""
+
+    table = pa.table(
+        {
+            "data": [np.random.rand(3, 128, 128).astype(np.float32).flatten() for _ in range(200)],
+        },
+        metadata={"data_shape": "(3,128,128)"},
+    )
+
+    file = tmp_path_factory.mktemp("data") / "test.parquet"
+    pq.write_table(table, file)
+
+    return file
