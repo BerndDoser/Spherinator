@@ -7,9 +7,9 @@ __pycache__
 *.parquet
 *.pt
 *.sarif
+/data/
 config.yaml
 cufile.log
-data/
 dist/
 docs/_build/
 docs/html/
