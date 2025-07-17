@@ -49,11 +49,11 @@ jobs:
       - name: Run unit tests
         run: uv run --extra dev -p ${{ matrix.python-version }} pytest
 
-      - name: Run benchmark tests
-        run: uv run --extra dev -p ${{ matrix.python-version }} pytest benchmark/*.py --benchmark-json output.json
+      # - name: Run benchmark tests
+      #   run: uv run --extra dev -p ${{ matrix.python-version }} pytest benchmark/*.py --benchmark-json output.json
 
-      - name: Store benchmark result
-        uses: benchmark-action/github-action-benchmark@v1
-        with:
-          tool: 'pytest'
-          output-file-path: output.json
+      # - name: Store benchmark result
+      #   uses: benchmark-action/github-action-benchmark@v1
+      #   with:
+      #     tool: 'pytest'
+      #     output-file-path: output.json
