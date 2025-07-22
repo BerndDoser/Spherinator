@@ -1,9 +1,11 @@
 """Pytest-based benchmarks for DataLoader performance."""
 
+# import time
+
 import pytest
+import torch
 from dataset_torch import DatasetTorch
 from torch.utils.data import DataLoader
-
 
 
 @pytest.mark.parametrize(
@@ -18,10 +20,10 @@ from torch.utils.data import DataLoader
         # ),
     ],
 )
-@pytest.mark.parametrize("batch_size", [32, 64])
-@pytest.mark.parametrize("num_workers", [0])
-@pytest.mark.parametrize("pin_memory", [False])
-@pytest.mark.parametrize("persistent_workers", [False])
+@pytest.mark.parametrize("batch_size", [20])
+@pytest.mark.parametrize("num_workers", [1])
+@pytest.mark.parametrize("pin_memory", [True])
+@pytest.mark.parametrize("persistent_workers", [True])
 def test_dataloader(benchmark, dataset, batch_size, num_workers, pin_memory, persistent_workers):
     """Benchmark DataLoader with different options."""
 
@@ -35,9 +37,12 @@ def test_dataloader(benchmark, dataset, batch_size, num_workers, pin_memory, per
     )
 
     def iterate_dataloader():
+        # time.sleep(0.001)
         for batch in dataloader:
+            assert not batch.is_cuda
             batch = batch.to("cuda")
-            break
+            torch.cuda.synchronize()  # Ensure all GPU operations are complete
+            # break
 
-    # benchmark(iterate_dataloader)
-    benchmark.pedantic(iterate_dataloader, rounds=100, warmup_rounds=5, iterations=10)
+    benchmark(iterate_dataloader)
+    # benchmark.pedantic(iterate_dataloader, rounds=100, warmup_rounds=10, iterations=10)
