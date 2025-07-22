@@ -1,10 +1,8 @@
 import time
 
-from dataset_numpy import DatasetNumpy
 from dataset_torch import DatasetTorch
 from torch.utils.data import DataLoader
 
-from spherinator.data import ParquetDataset
 
 start_time = time.time()
 dataset = DatasetTorch([200, 3, 128, 128], cache_on_gpu=True)
