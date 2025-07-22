@@ -12,8 +12,12 @@ from spherinator.data import ParquetDataset
     "dataset",
     [
         DatasetTorch([200, 3, 128, 128]),
-        DatasetNumpy([200, 3, 128, 128]),
-        ParquetDataset("data/Illustris_TNG_SKIRT_SDSS", "data"),
+        DatasetTorch([200, 3, 128, 128], cache_on_gpu=True),
+        # DatasetNumpy([200, 3, 128, 128]),
+        # ParquetDataset("data/Illustris_TNG_SKIRT_SDSS", "data"),
+        ParquetDataset(
+            "/hits/flash/its/doserbd/SPACE/SKIRT_synthetic_images_small/parquet-v4-128-float32-snappy", "data"
+        ),
     ],
 )
 @pytest.mark.parametrize("batch_size", [32])
@@ -34,7 +38,7 @@ def test_dataloader(benchmark, dataset, batch_size, num_workers, pin_memory, per
 
     def iterate_dataloader():
         for batch in dataloader:
-            pass
+            batch = batch.to("cuda")
 
     benchmark(iterate_dataloader)
     # benchmark.pedantic(iterate_dataloader, rounds=100, warmup_rounds=5, iterations=10)
