@@ -33,7 +33,7 @@ dependencies = [
     "torchio>=1.0.2",
     "torchvision >=0.26",
     "transformers >=4.40",
-    "wandb >=0.20",
+    "wandb[sandbox]>=0.20",
 ]
 
 [project.optional-dependencies]
