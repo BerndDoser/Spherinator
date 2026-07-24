@@ -17,12 +17,14 @@ from .huggingface_resnet_encoder import HuggingFaceResNetEncoder
 from .huggingface_vit_encoder import HuggingFaceViTEncoder
 from .mlp import MLP
 from .sequential import Sequential
+from .upload_to_huggingface import upload_to_huggingface
 from .upsampling_decoder_2d import UpsamplingDecoder2D
 from .variational_autoencoder import VariationalAutoencoder
 from .weights_provider import WeightsProvider
 from .yaml2model import yaml2model
 
 __all__ = [
+    "MLP",
     "Autoencoder",
     "ConsecutiveConv1DLayer",
     "ConsecutiveConv2DLayer",
@@ -33,13 +35,13 @@ __all__ = [
     "ConvolutionalEncoder1D",
     "ConvolutionalEncoder2D",
     "EmbeddingReconstruction",
-    "export_onnx",
     "HuggingFaceResNetEncoder",
     "HuggingFaceViTEncoder",
-    "MLP",
     "Sequential",
     "UpsamplingDecoder2D",
     "VariationalAutoencoder",
     "WeightsProvider",
+    "export_onnx",
+    "upload_to_huggingface",
     "yaml2model",
 ]
